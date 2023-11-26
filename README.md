@@ -3,9 +3,17 @@
 A lightweight validation framework for the JVM, allowing for internal and external validation logic to be combined in a transparent and reusable 
 way.
 
+<!-- TOC -->
+* [Modular Validators](#modular-validators)
+  * [Value statement](#value-statement)
+    * [Problem](#problem)
+    * [Proposed solution](#proposed-solution)
+  * [Contributing](#contributing)
+<!-- TOC -->
+
 ## Value statement
 
-### Problem 
+### Problem
 The coding of validation logic is generally tedious. While many simple validation frameworks exist to date, most of them suffer from the same 
 design issues:
 
@@ -25,3 +33,18 @@ This allows to chain logic on top of the validator objects if so required, rathe
 The aim is to make validation of object state a first level concern when designing applicative flows, rather than a side-thought that is often 
 forgotten.
 
+
+## Contributing
+
+Thank you for your interest in this repository. If you would like to help out, consider the
+following:
+
+There are various ways to contribute to this repository. You can help us out by:
+
+* Using the library and providing feedback
+* Come up with ideas or patterns to be included
+* Log issues in the github issue tracker
+* Send a Pull-Request
+
+You will need to use a compatible code style. The IntelliJ stylesheet
+is [included in the ./docs/utils](./docs/utils/SDDStyle.xml) folder. 
