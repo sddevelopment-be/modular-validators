@@ -10,7 +10,7 @@ public final class Validations {
     }
 
 
-    public static <S> Function<S, Boolean> haveNonEmptyField(Function<S, ?> extractor) {
+    public static <S> Function<S, Boolean> haveNonNullField(Function<S, ?> extractor) {
         return extractor.andThen(Objects::isNull).andThen(result -> !result);
     }
 }

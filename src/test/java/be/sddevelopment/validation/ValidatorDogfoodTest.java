@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 import static be.sddevelopment.validation.ModularValidator.aValid;
+import static be.sddevelopment.validation.Validations.haveNonNullField;
 import static java.time.Month.MARCH;
 
 /**
@@ -28,7 +29,7 @@ class ValidatorDogfoodTest implements WithAssertions {
 
         var validator = aValid(DateBasedDummyObject.class)
                 .must(Objects::nonNull)
-                .must(Validations.haveNonEmptyField(DateBasedDummyObject::localDate));
+                .must(haveNonNullField(DateBasedDummyObject::localDate));
 
         assertThat(validator.evaluate(toValidate)).is(CHECKED_VALID);
     }
