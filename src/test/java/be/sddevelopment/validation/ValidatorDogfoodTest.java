@@ -1,6 +1,5 @@
 package be.sddevelopment.validation;
 
-import org.assertj.core.api.Condition;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -19,8 +18,6 @@ import static java.time.Month.MARCH;
  */
 class ValidatorDogfoodTest implements WithAssertions {
 
-    private static final Condition<Checked<?>> CHECKED_VALID = new Condition<>(Checked::isValid, "valid");
-
     @Test
     @Disabled("Work in progress: top-level acceptance test")
     void modularValidatorsMustCoverBasicUsage_givenSimpleDateBasedValidationLogic() {
@@ -33,7 +30,7 @@ class ValidatorDogfoodTest implements WithAssertions {
                 .must(Objects::nonNull)
                 .must(haveNonNullField(DateBasedDummyObject::localDate));
 
-        assertThat(validator.evaluate(toValidate)).is(CHECKED_VALID);
+        assertThat(validator.evaluate(toValidate)).is(CheckedTestUtils.valid());
     }
 
     private record DateBasedDummyObject(LocalDate localDate) {

@@ -2,7 +2,6 @@ package be.sddevelopment.validation;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class ModularValidator<T> {
@@ -13,7 +12,7 @@ public class ModularValidator<T> {
     }
 
     public <S extends Predicate<T>> ModularValidator<T> must(S requirement) {
-        this.rules.add(new ValidationRule<>(requirement));
+        this.rules.add(new ValidationRule<>(requirement, "musn't be blank"));
         return this;
     }
 
@@ -22,6 +21,8 @@ public class ModularValidator<T> {
     }
 
     public Checked<T> evaluate(T toValidate) {
-        return Checked.of(toValidate);
+        Checked<T> accumulator = Checked.of(toValidate);
+        rules.forEach(accumulator::applyRule);
+        return accumulator;
     }
 }

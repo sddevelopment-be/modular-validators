@@ -9,7 +9,7 @@ import static java.util.function.Predicate.not;
 public final class Validations {
 
     private Validations() throws IllegalAccessException {
-        throw new IllegalAccessException("Utility methods (containing shared methods or constants) should not be instantiated.");
+        throw new IllegalAccessException("Utility classes (containing shared methods or constants) should not be instantiated.");
     }
 
     public static <S> Predicate<S> haveNonNullField(Function<S, ?> extractor) {
