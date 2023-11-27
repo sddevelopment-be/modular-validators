@@ -2,6 +2,9 @@ package be.sddevelopment.validation;
 
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.Predicate;
+
+import static java.util.function.Predicate.not;
 
 public final class Validations {
 
@@ -9,8 +12,11 @@ public final class Validations {
         throw new IllegalAccessException("Utility methods (containing shared methods or constants) should not be instantiated.");
     }
 
+    public static <S> Predicate<S> haveNonNullField(Function<S, ?> extractor) {
+        return not(haveNullField(extractor));
+    }
 
-    public static <S> Function<S, Boolean> haveNonNullField(Function<S, ?> extractor) {
-        return extractor.andThen(Objects::isNull).andThen(result -> !result);
+    public static <S> Predicate<S> haveNullField(Function<S, ?> extractor) {
+        return extractor.andThen(Objects::isNull)::apply;
     }
 }

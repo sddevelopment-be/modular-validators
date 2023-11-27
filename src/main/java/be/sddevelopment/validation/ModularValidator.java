@@ -12,14 +12,8 @@ public class ModularValidator<T> {
     private ModularValidator() {
     }
 
-    public <S extends Function<T, Boolean>> ModularValidator<T> must(S requirement) {
-        var predicate = new Predicate<T>() {
-            @Override
-            public boolean test(T t) {
-                return requirement.apply(t);
-            }
-        };
-        this.rules.add(new ValidationRule<>(predicate));
+    public <S extends Predicate<T>> ModularValidator<T> must(S requirement) {
+        this.rules.add(new ValidationRule<>(requirement));
         return this;
     }
 
