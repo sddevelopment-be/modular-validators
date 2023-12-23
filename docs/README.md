@@ -1,5 +1,7 @@
 # Modular Validators
 
+
+
 A lightweight validation framework for the JVM, allowing for internal and external validation logic to be combined in a transparent and reusable 
 way.
 
@@ -50,4 +52,4 @@ There are various ways to contribute to this repository. You can help us out by:
 * Send a Pull-Request
 
 You will need to use a compatible code style. The IntelliJ stylesheet
-is [included in the ./docs/utils](./docs/utils/SDDStyle.xml) folder. 
+is [included in the ./docs/utils](utils/SDDStyle.xml) folder. 
