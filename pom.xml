@@ -30,6 +30,7 @@
         <sonar.coverage.jacoco.xmlReportPaths>${jacoco.build.dir}/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
         <jacoco.build.dir>${project.build.directory}/jacoco</jacoco.build.dir>
 
+        <reportOutputDirectory>${project.basedir}/docs/</reportOutputDirectory>
         <java.version>21</java.version>
         <junit.jupiter.version>5.10.0</junit.jupiter.version>
     </properties>
@@ -101,14 +102,11 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.5.0</version>
                 <configuration>
-                    <show>public</show>
-                    <nohelp>true</nohelp>
-                    <reportOutputDirectory>docs/javadoc</reportOutputDirectory>
-                    <destDir>.</destDir>
                     <stylesheet>maven</stylesheet>
-                    <stylesheetfile>${project.basedir}/src/main/javadoc/stylesheet.css</stylesheetfile>
-                    <defaultVersion>${project.version}</defaultVersion>
-                    <sourcepath>${project.basedir}/target/generated-sources/delombok</sourcepath>
+                    <javadocDirectory>src/main/javadoc</javadocDirectory>
+                    <addStylesheets>
+                        <resources>/styles/stylesheet.css</resources>
+                    </addStylesheets>
                 </configuration>
             </plugin>
 
@@ -163,10 +161,11 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.5.0</version>
                 <configuration>
-                    <reportOutputDirectory>docs/javadoc</reportOutputDirectory>
-                    <destDir>javadoc</destDir>
                     <stylesheet>maven</stylesheet>
-                    <stylesheetfile>${project.basedir}/src/main/javadoc/stylesheet.css</stylesheetfile>
+                    <javadocDirectory>src/main/javadoc</javadocDirectory>
+                    <addStylesheets>
+                        <resources>${project.basedir}/javadoc/stylesheet.css</resources>
+                    </addStylesheets>
                 </configuration>
                 <reportSets>
                     <reportSet>

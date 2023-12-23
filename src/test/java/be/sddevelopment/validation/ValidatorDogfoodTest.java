@@ -1,7 +1,6 @@
 package be.sddevelopment.validation;
 
 import org.assertj.core.api.WithAssertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
