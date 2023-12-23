@@ -19,7 +19,6 @@ import static java.time.Month.MARCH;
 class ValidatorDogfoodTest implements WithAssertions {
 
     @Test
-    @Disabled("Work in progress: top-level acceptance test")
     void modularValidatorsMustCoverBasicUsage_givenSimpleDateBasedValidationLogic() {
         var toValidate = new DateBasedDummyObject(LocalDate.of(2023, MARCH, 9));
         assertThat(toValidate).isNotNull()

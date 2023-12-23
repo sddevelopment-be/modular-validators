@@ -5,8 +5,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.function.Predicate;
 
+import static be.sddevelopment.validation.CheckedTestUtils.invalid;
 import static be.sddevelopment.validation.CheckedTestUtils.valid;
-import static be.sddevelopment.validation.Reason.pass;
+import static be.sddevelopment.validation.Reason.failed;
+import static be.sddevelopment.validation.Reason.passed;
 
 class CheckedTest implements WithAssertions {
 
@@ -22,6 +24,21 @@ class CheckedTest implements WithAssertions {
         assertThat(result.rationale())
                 .isPresent().get()
                 .extracting(EvaluationRationale::details).asList()
-                .contains(pass("mustn't be blank"));
+                .contains(passed("mustn't be blank"));
+    }
+
+    @Test
+    void givenCheckedWithData_andInvalidData_whenApplyingRule_itIsEvaluatedAsInvalid() {
+        var empty = "";
+        var rule = new ValidationRule<>(Predicate.not(String::isBlank), "mustn't be blank");
+        assertThat(rule.rule().test(empty)).isFalse();
+
+        var result = Checked.of(empty).applyRule(rule);
+
+        assertThat(result).is(invalid());
+        assertThat(result.rationale())
+                .isPresent().get()
+                .extracting(EvaluationRationale::details).asList()
+                .contains(failed("mustn't be blank"));
     }
 }

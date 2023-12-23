@@ -33,6 +33,9 @@ This allows to chain logic on top of the validator objects if so required, rathe
 The aim is to make validation of object state a first level concern when designing applicative flows, rather than a side-thought that is often 
 forgotten.
 
+## References
+
+* Gorts, S (2023) Better validation rules with Validation Results. self-published on LinkedIn. [link](https://www.linkedin.com/feed/update/urn:li:activity:7139998913746329600/).
 
 ## Contributing
 

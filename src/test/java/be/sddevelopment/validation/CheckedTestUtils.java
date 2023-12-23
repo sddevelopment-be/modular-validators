@@ -2,6 +2,8 @@ package be.sddevelopment.validation;
 
 import org.assertj.core.api.Condition;
 
+import java.util.function.Predicate;
+
 public final class CheckedTestUtils {
 
     private CheckedTestUtils() throws IllegalAccessException {
@@ -10,5 +12,9 @@ public final class CheckedTestUtils {
 
     public static Condition<Checked<?>> valid() {
         return new Condition<>(Checked::isValid, "valid");
+    }
+
+    public static Condition<Checked<?>> invalid() {
+        return new Condition<>(Predicate.not(Checked::isValid), "invalid");
     }
 }
