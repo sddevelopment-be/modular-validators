@@ -1,7 +1,10 @@
 package be.sddevelopment.validation;
 
+import net.serenitybdd.annotations.Feature;
+import net.serenitybdd.junit5.SerenityJUnit5Extension;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -15,6 +18,7 @@ import static java.time.Month.MARCH;
  * These tests are intended to allow library developers to experience working with their own code in a practical setting,
  * getting first-hand impressions on how their API design feels to their target audience.
  */
+@ExtendWith(SerenityJUnit5Extension.class)
 class ValidatorDogfoodTest implements WithAssertions {
 
     @Test
