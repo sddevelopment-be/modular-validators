@@ -1,7 +1,9 @@
 package be.sddevelopment.validation;
 
+import net.serenitybdd.junit5.SerenityJUnit5Extension;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.function.Predicate;
 
@@ -10,6 +12,7 @@ import static be.sddevelopment.validation.CheckedTestUtils.valid;
 import static be.sddevelopment.validation.Reason.failed;
 import static be.sddevelopment.validation.Reason.passed;
 
+@ExtendWith(SerenityJUnit5Extension.class)
 class CheckedTest implements WithAssertions {
 
     @Test
