@@ -1,6 +1,6 @@
 # Modular Validators
 
-
+| [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=sddevelopment-be_modular-validators)](https://sonarcloud.io/summary/new_code?id=sddevelopment-be_modular-validators) | [Test report](serenity/) | [JavaDoc](apidocs/) |
 
 A lightweight validation framework for the JVM, allowing for internal and external validation logic to be combined in a transparent and reusable 
 way.
