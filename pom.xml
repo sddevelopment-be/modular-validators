@@ -9,10 +9,9 @@
     <version>1.0.0-SNAPSHOT</version>
 
     <description>
-        JVM library to create modular validator-objects. Intended to be used as a utility library in other
+        Java library to create modular validator-objects. Intended to be used as a utility library in other
         projects to avoid the overhead of writing custom validation frameworks. Modular Validators supports the creation
-        of specific
-        validator objects, that can use both internal state, and external services to assess the validity of an
+        of specific validator objects, that can use both internal state, and external services to assess the validity of an
         object.
     </description>
 
