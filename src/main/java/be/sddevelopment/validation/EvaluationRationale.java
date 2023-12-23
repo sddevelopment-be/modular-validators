@@ -9,4 +9,8 @@ public class EvaluationRationale {
     public List<Reason> details() {
         return details;
     }
+
+    public void add(Reason reason) {
+        this.details.add(reason);
+    }
 }

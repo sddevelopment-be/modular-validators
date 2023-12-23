@@ -24,7 +24,6 @@
         </repository>
     </distributionManagement>
 
-
     <properties>
         <sonar.organization>sddevelopment-be</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
