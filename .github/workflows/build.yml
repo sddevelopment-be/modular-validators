@@ -10,10 +10,14 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          ref: ${{ github.head_ref }}
+          fetch-depth: 2
 
       - name: Set up JDK 21
         uses: actions/setup-java@v1
@@ -27,6 +31,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.m2
+          token: ${{ secrets.REPO_TOKEN }}
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
@@ -46,9 +51,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}  # Needed to get PR information, if any
 
-      - uses: EndBug/add-and-commit@v9 # Action to add and commit changes.
-        env:
-          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+      - name: Commit JavaDocs
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          add: 'docs/apidocs'
-          message: 'Update documentation'
+          file_pattern: 'docs/apidocs/*'
+          commit_message: 'Update documentation'
+          disable_globbing: true
