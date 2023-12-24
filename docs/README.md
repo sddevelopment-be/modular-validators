@@ -27,7 +27,7 @@ design issues:
 
 ### Proposed solution
 
-Our modular validator solution aims to remedy this, so give developers have the option to chose their own style of validation.
+Our modular validator solution aims to remedy this, so developers have the option to chose their own style of validation.
 The aim is to simplify externally driven validation by providing extension points upon which developers can hook in their own api calls.
 On top of this, the validator objects will behave as `monads`. This means they will be usable in both the `valid` and `invalid` state.
 This allows to chain logic on top of the validator objects if so required, rather than being forced to write exceptional code paths.
