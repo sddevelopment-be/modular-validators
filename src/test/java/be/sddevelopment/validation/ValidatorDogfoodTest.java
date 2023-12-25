@@ -51,12 +51,13 @@ class ValidatorDogfoodTest implements WithAssertions {
         @Test
         @Disabled("Acceptance test for Checked Usage")
         void checkedShouldAllowForFluentUsage_whenUsingItAsAGuard() {
-            var toValidate = new DateBasedDummyObject("", LocalDate.of(2023, MARCH, 9));
             var validator = aValid(DateBasedDummyObject.class)
                     .must(Objects::nonNull, "not be null")
                     .must(haveNonNullField(DateBasedDummyObject::localDate), "have a non-null local date")
                     .must(this::haveAName, "have a name")
                     .iHaveSpoken();
+            var toValidate = new DateBasedDummyObject("", LocalDate.of(2023, MARCH, 9));
+            assertThat(validator.evaluate(toValidate)).matches(Checked::isInvalid);
 
             var result = validator.evaluate(toValidate);
 

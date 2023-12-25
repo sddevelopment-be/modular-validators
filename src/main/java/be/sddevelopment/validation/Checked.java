@@ -34,6 +34,10 @@ public final class Checked<T> {
                 .noneMatch(FAIL::equals);
     }
 
+    public boolean isInvalid() {
+        return !isValid();
+    }
+
     Checked<T> applyRule(ValidationRule<T> tValidationRule) {
         var result = tValidationRule.rule().test(this.data);
         this.rationale.add(new Reason(tValidationRule.description(), result ? PASS : FAIL));
