@@ -11,7 +11,8 @@
     <description>
         Java library to create modular validator-objects. Intended to be used as a utility library in other
         projects to avoid the overhead of writing custom validation frameworks. Modular Validators supports the creation
-        of specific validator objects, that can use both internal state, and external services to assess the validity of an
+        of specific validator objects, that can use both internal state, and external services to assess the validity of
+        an
         object.
     </description>
 
@@ -90,6 +91,11 @@
                     <groupId>org.sonarsource.scanner.maven</groupId>
                     <artifactId>sonar-maven-plugin</artifactId>
                     <version>3.10.0.2594</version>
+                    <configuration>
+                        <excludes>
+                            <exclude>be/sddevelopment/**/*TestUtils*/</exclude>
+                        </excludes>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -154,7 +160,7 @@
                 </executions>
                 <configuration>
                     <excludes>
-                        <exclude>be/sddevelopment/commons/constants/**/*.class</exclude>
+                        <exclude>be/sddevelopment/**/*TestUtils*/</exclude>
                     </excludes>
                 </configuration>
             </plugin>

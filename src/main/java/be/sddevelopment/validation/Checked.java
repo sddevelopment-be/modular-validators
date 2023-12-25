@@ -48,4 +48,7 @@ public final class Checked<T> {
         return ofNullable(this.rationale);
     }
 
+    public void guard(String errorMessage) {
+
+    }
 }
