@@ -1,4 +1,4 @@
-name: Build [mainline]
+name: Build [PR and non-mainline branches]
 on:
   pull_request:
     branches: main
@@ -47,4 +47,17 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=sddevelopment-be_modular-validators
 
+      - name: Generate JavaDocs
+        run: mvn javadoc:javadoc
+        env:
+          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}  # Needed to get PR information, if any
 
+      - name: Publish test report
+        run: cp -r target/site/serenity/* docs/serenity/
+
+      - name: Commit JavaDocs
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          file_pattern: 'docs/*'
+          commit_message: 'Update documentation'
+          disable_globbing: true

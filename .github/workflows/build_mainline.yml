@@ -16,7 +16,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
+          token: ${{ secrets.REPO_TOKEN }}
           fetch-depth: 2
+
 
       - name: Set up JDK 21
         uses: actions/setup-java@v1
@@ -44,18 +46,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=sddevelopment-be_modular-validators
-
-      - name: Generate JavaDocs
-        run: mvn javadoc:javadoc
-        env:
-          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}  # Needed to get PR information, if any
-
-      - name: Publish test report
-        run: cp -r target/site/serenity/* docs/serenity/
-
-      - name: Commit JavaDocs
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          file_pattern: 'docs/*'
-          commit_message: 'Update documentation'
-          disable_globbing: true

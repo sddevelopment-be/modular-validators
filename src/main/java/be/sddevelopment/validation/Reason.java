@@ -8,8 +8,9 @@ import static be.sddevelopment.validation.Evaluation.PASS;
  * Represents the evaluation of a single {@link ValidationRule}, and will be included in a {@link EvaluationRationale}.
  * Each reason will tell the user whether a particular rule passed or failed, and will include a description (aka "rationale") to explain why a certain result was achieved.
  *
+ * This class is immutable, and provides static factory methods to simplify usage, and increase readability..
+ *
  * @version 1.0.0-SNAPSHOT
- * @apiNote This class is immutable, and provides static factory methods to simplify usage, and increase readability..
  * @since 1.0.0-SNAPSHOT
  */
 public record Reason(String rationale, Evaluation result) {

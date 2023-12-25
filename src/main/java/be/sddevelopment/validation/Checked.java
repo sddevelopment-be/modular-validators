@@ -13,9 +13,10 @@ import static java.util.Optional.ofNullable;
  * The result of said evaluation is represented by a {@link EvaluationRationale}.
  * The original object is maintained as well, to allow for further processing, and flexibility in dealing with various validation states.
  *
+ * Intended as a <a href="https://en.wikipedia.org/wiki/Monad_(functional_programming)">monadic structure</a> to allow for fluent programming with the result of a validation.
+ *
  * @author stijnd
  * @version 1.0.0-SNAPSHOT
- * @apiNote Intended as a <a href="https://en.wikipedia.org/wiki/Monad_(functional_programming)">monadic structure</a> to allow for fluent programming with the result of a validation.
  */
 public final class Checked<T> {
 
