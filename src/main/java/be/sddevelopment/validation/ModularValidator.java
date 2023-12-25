@@ -4,51 +4,49 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-/**
- * <p>ModularValidator class.</p>
- *
- * @author stijnd
- * @version 1.0.0-SNAPSHOT
- */
-public class ModularValidator<T> {
+public final class ModularValidator<T> {
 
     private final List<ValidationRule<T>> rules = new ArrayList<>();
 
-    private ModularValidator() {
+    private ModularValidator(List<ValidationRule<T>> rules) {
+        this.rules.addAll(rules);
     }
 
-    /**
-     * <p>must.</p>
-     *
-     * @param requirement a S object
-     * @param <S> a S class
-     * @return a {@link be.sddevelopment.validation.ModularValidator} object
-     */
-    public <S extends Predicate<T>> ModularValidator<T> must(S requirement) {
-        this.rules.add(new ValidationRule<>(requirement, "musn't be blank"));
-        return this;
-    }
-
-    /**
-     * <p>aValid.</p>
-     *
-     * @param clazz a {@link java.lang.Class} object
-     * @param <S> a S class
-     * @return a {@link be.sddevelopment.validation.ModularValidator} object
-     */
-    public static <S> ModularValidator<S> aValid(Class<S> clazz) {
-        return new ModularValidator<>();
-    }
-
-    /**
-     * <p>evaluate.</p>
-     *
-     * @param toValidate a T object
-     * @return a {@link be.sddevelopment.validation.Checked} object
-     */
     public Checked<T> evaluate(T toValidate) {
         Checked<T> accumulator = Checked.of(toValidate);
         rules.forEach(accumulator::applyRule);
         return accumulator;
+    }
+
+    public static <S> ModularValidatorBuilder<S> aValid(Class<S> ignoredClazz) {
+        return new ModularValidatorBuilder<>();
+    }
+
+    public static class ModularValidatorBuilder<S> {
+        private final List<ValidationRule<S>> rules = new ArrayList<>();
+
+        private ModularValidatorBuilder() {
+        }
+
+        public ModularValidatorBuilder<S> must(Predicate<S> requirement, String description) {
+            return must(new ValidationRule<>(requirement, description));
+        }
+
+        public ModularValidatorBuilder<S> must(ValidationRule<S> rule) {
+            this.rules.add(rule);
+            return this;
+        }
+
+        public ModularValidator<S> build() {
+            return new ModularValidator<>(rules);
+        }
+
+        public ModularValidator<S> iHaveSpoken() {
+            return done();
+        }
+
+        public ModularValidator<S> done() {
+            return new ModularValidator<>(this.rules);
+        }
     }
 }

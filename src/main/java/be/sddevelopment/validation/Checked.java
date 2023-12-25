@@ -8,9 +8,14 @@ import static java.util.Optional.ofNullable;
 
 /**
  * <p>Checked class.</p>
+ * <p>
+ * Represents the result of evaluating an object of any type.
+ * The result of said evaluation is represented by a {@link EvaluationRationale}.
+ * The original object is maintained as well, to allow for further processing, and flexibility in dealing with various validation states.
  *
  * @author stijnd
  * @version 1.0.0-SNAPSHOT
+ * @apiNote Intended as a <a href="https://en.wikipedia.org/wiki/Monad_(functional_programming)">monadic structure</a> to allow for fluent programming with the result of a validation.
  */
 public final class Checked<T> {
 
@@ -21,11 +26,6 @@ public final class Checked<T> {
         this.data = toValidate;
     }
 
-    /**
-     * <p>isValid.</p>
-     *
-     * @return a boolean
-     */
     public boolean isValid() {
         return this.rationale.details()
                 .stream()
@@ -33,35 +33,18 @@ public final class Checked<T> {
                 .noneMatch(FAIL::equals);
     }
 
-    /**
-     * <p>applyRule.</p>
-     *
-     * @param tValidationRule a {@link be.sddevelopment.validation.ValidationRule} object
-     * @return a {@link be.sddevelopment.validation.Checked} object
-     */
-    public Checked<T> applyRule(ValidationRule<T> tValidationRule) {
+    Checked<T> applyRule(ValidationRule<T> tValidationRule) {
         var result = tValidationRule.rule().test(this.data);
         this.rationale.add(new Reason(tValidationRule.description(), result ? PASS : FAIL));
         return this;
     }
 
-    /**
-     * <p>of.</p>
-     *
-     * @param toValidate a T object
-     * @param <T> a T class
-     * @return a {@link be.sddevelopment.validation.Checked} object
-     */
     public static <T> Checked<T> of(T toValidate) {
         return new Checked<>(toValidate);
     }
 
-    /**
-     * <p>rationale.</p>
-     *
-     * @return a {@link java.util.Optional} object
-     */
     public Optional<EvaluationRationale> rationale() {
         return ofNullable(this.rationale);
     }
+
 }

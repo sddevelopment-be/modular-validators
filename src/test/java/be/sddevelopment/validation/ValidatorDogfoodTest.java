@@ -1,6 +1,5 @@
 package be.sddevelopment.validation;
 
-import net.serenitybdd.annotations.Feature;
 import net.serenitybdd.junit5.SerenityJUnit5Extension;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;
@@ -28,9 +27,11 @@ class ValidatorDogfoodTest implements WithAssertions {
                 .extracting(DateBasedDummyObject::localDate)
                 .isNotNull();
 
+        var notBeNull = new ValidationRule<DateBasedDummyObject>(Objects::nonNull, "not be null");
         var validator = aValid(DateBasedDummyObject.class)
-                .must(Objects::nonNull)
-                .must(haveNonNullField(DateBasedDummyObject::localDate));
+                .must(notBeNull)
+                .must(haveNonNullField(DateBasedDummyObject::localDate), "have a non-null local date")
+                .iHaveSpoken();
 
         assertThat(validator.evaluate(toValidate)).is(CheckedTestUtils.valid());
     }
