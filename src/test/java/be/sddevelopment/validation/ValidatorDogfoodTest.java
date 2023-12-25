@@ -63,7 +63,9 @@ class ValidatorDogfoodTest implements WithAssertions {
 
             assertThatExceptionOfType(InvalidObjectException.class)
                     .isThrownBy(() -> result.guard("Object should be valid"))
-                    .withMessage("Object should be valid");
+                    .withMessage("Object should be valid")
+                    .extracting(InvalidObjectException::errors).asList()
+                    .containsExactly("rule [have a name] FAILED");
         }
 
         private boolean haveAName(DateBasedDummyObject toCheck) {

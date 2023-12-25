@@ -52,7 +52,9 @@ public final class Checked<T> {
         return ofNullable(this.rationale);
     }
 
-    public void guard(String errorMessage) {
-
+    public void guard(String errorMessage) throws InvalidObjectException {
+        if (isInvalid()) {
+            throw new InvalidObjectException(errorMessage, this.rationale);
+        }
     }
 }
