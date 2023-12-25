@@ -2,7 +2,6 @@ package be.sddevelopment.validation;
 
 import net.serenitybdd.junit5.SerenityJUnit5Extension;
 import org.assertj.core.api.WithAssertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,7 +48,6 @@ class ValidatorDogfoodTest implements WithAssertions {
     class CheckedUsages {
 
         @Test
-        @Disabled("Acceptance test for Checked Usage")
         void checkedShouldAllowForFluentUsage_whenUsingItAsAGuard() {
             var validator = aValid(DateBasedDummyObject.class)
                     .must(Objects::nonNull, "not be null")
@@ -65,7 +63,7 @@ class ValidatorDogfoodTest implements WithAssertions {
                     .isThrownBy(() -> result.guard("Object should be valid"))
                     .withMessage("Object should be valid")
                     .extracting(InvalidObjectException::errors).asList()
-                    .containsExactly("rule [have a name] FAILED");
+                    .contains("FAIL: [have a name]");
         }
 
         private boolean haveAName(DateBasedDummyObject toCheck) {

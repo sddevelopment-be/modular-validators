@@ -10,7 +10,8 @@ public class EvaluationRationale {
         return details;
     }
 
-    public void add(Reason reason) {
+    public EvaluationRationale add(Reason reason) {
         this.details.add(reason);
+        return this;
     }
 }
