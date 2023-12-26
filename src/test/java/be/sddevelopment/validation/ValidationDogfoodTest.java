@@ -9,7 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import java.time.LocalDate;
 import java.util.Objects;
 
-import static be.sddevelopment.validation.ModularValidator.aValid;
+import static be.sddevelopment.validation.ModularRuleset.aValid;
 import static be.sddevelopment.validation.Validations.haveNonNullField;
 import static java.time.Month.MARCH;
 import static java.util.Optional.ofNullable;
@@ -20,7 +20,7 @@ import static java.util.Optional.ofNullable;
  * getting first-hand impressions on how their API design feels to their target audience.
  */
 @ExtendWith(SerenityJUnit5Extension.class)
-class ValidatorDogfoodTest implements WithAssertions {
+class ValidationDogfoodTest implements WithAssertions {
 
     @Nested
     class ValidatorUsage {
@@ -31,13 +31,13 @@ class ValidatorDogfoodTest implements WithAssertions {
                     .extracting(DateBasedDummyObject::localDate)
                     .isNotNull();
 
-            var notBeNull = new ValidationRule<DateBasedDummyObject>(Objects::nonNull, "not be null");
+            var notBeNull = new Constraint<DateBasedDummyObject>(Objects::nonNull, "not be null");
             var validator = aValid(DateBasedDummyObject.class)
                     .must(notBeNull)
                     .must(haveNonNullField(DateBasedDummyObject::localDate), "have a non-null local date")
                     .iHaveSpoken();
 
-            assertThat(validator.evaluate(toValidate)).is(CheckedTestUtils.valid());
+            assertThat(validator.constrain(toValidate)).is(CheckedTestUtils.valid());
         }
 
         private record DateBasedDummyObject(LocalDate localDate) {
@@ -45,7 +45,7 @@ class ValidatorDogfoodTest implements WithAssertions {
     }
 
     @Nested
-    class CheckedUsages {
+    class ConstrainableUsages {
 
         @Test
         void checkedShouldAllowForFluentUsage_whenUsingItAsAGuard_givenInvalidObject() {
@@ -55,12 +55,12 @@ class ValidatorDogfoodTest implements WithAssertions {
                     .must(this::haveAName, "have a name")
                     .iHaveSpoken();
             var toValidate = new DateBasedDummyObject("", LocalDate.of(2023, MARCH, 9));
-            assertThat(validator.evaluate(toValidate)).matches(Checked::isInvalid);
+            assertThat(validator.constrain(toValidate)).matches(Constrainable::isInvalid);
 
-            var result = validator.evaluate(toValidate);
+            var result = validator.constrain(toValidate);
 
             assertThatExceptionOfType(InvalidObjectException.class)
-                    .isThrownBy(() -> result.guard("Object should be valid"))
+                    .isThrownBy(() -> result.feedback("Object should be valid"))
                     .withMessage("Object should be valid")
                     .extracting(InvalidObjectException::errors).asList()
                     .contains("FAIL: [have a name]");

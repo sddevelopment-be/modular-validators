@@ -9,7 +9,7 @@ public class InvalidObjectException extends Exception {
 
     private final List<String> errors = new ArrayList<>();
 
-    public InvalidObjectException(String errorMessage, EvaluationRationale rationale) {
+    public InvalidObjectException(String errorMessage, Rationale rationale) {
         super(errorMessage);
         rationale.details()
                 .stream().map(this::errorFromReason)

@@ -5,6 +5,7 @@ import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import static be.sddevelopment.validation.Rationale.emptyRationale;
 import static be.sddevelopment.validation.Reason.failed;
 import static be.sddevelopment.validation.Reason.passed;
 
@@ -13,7 +14,7 @@ class InvalidObjectExceptionTest implements WithAssertions {
 
     @Test
     void invalidObjectExceptionMustContainAllErrors_givenMultipleErrors() {
-        var rationale = new EvaluationRationale()
+        var rationale = emptyRationale()
                 .add(passed("This is fine"))
                 .add(failed("The consequences will never be the same"));
 
