@@ -37,10 +37,6 @@ public final class ModularValidator<T> {
             return this;
         }
 
-        public ModularValidator<S> build() {
-            return new ModularValidator<>(rules);
-        }
-
         public ModularValidator<S> iHaveSpoken() {
             return done();
         }
