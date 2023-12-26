@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><testsuite errors="0" failures="0" name="be.sddevelopment.validation.ConstrainableTest" skipped="0" tests="1" time="0.0" timestamp="2023-12-26 09:33:25"><testcase classname="be.sddevelopment.validation.ConstrainableTest" name="Given checked with data when applying rule its evaluation is remembered"/></testsuite>
