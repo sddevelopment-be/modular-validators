@@ -20,15 +20,25 @@ public final class ModularRuleset<T> {
     }
 
     public Rationale assess(T toValidate) {
+        return check(toValidate);
+    }
+
+    public Rationale check(T data) {
         return rationaleWithReasons(rules.stream()
-                .map(rule -> rule.applyTo(toValidate))
+                .map(rule -> rule.applyTo(data))
                 .toList());
     }
 
-    public boolean validate(T data) {
-        return this.rules.stream()
-                .map(rule -> rule.applyTo(data))
-                .allMatch(Reason::isPassing);
+    public Rationale quickCheck(T data) {
+        var result = Rationale.emptyRationale();
+        for (var rule : this.rules) {
+            var reason = rule.applyTo(data);
+            result.add(reason);
+            if (reason.isFailing()) {
+                return result;
+            }
+        }
+        return result;
     }
 
     public static <S> ModularValidatorBuilder<S> aValid(Class<S> ignoredClazz) {

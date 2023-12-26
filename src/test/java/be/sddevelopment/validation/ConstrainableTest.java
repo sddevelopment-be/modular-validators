@@ -5,16 +5,17 @@ import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.commons.util.StringUtils;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.function.Predicate;
 
 import static be.sddevelopment.validation.CheckedTestUtils.invalid;
 import static be.sddevelopment.validation.CheckedTestUtils.valid;
-import static be.sddevelopment.validation.Constrainable.constrain;
 import static be.sddevelopment.validation.Reason.failed;
 import static be.sddevelopment.validation.Reason.passed;
+import static be.sddevelopment.validation.Validations.haveNonEmpty;
 
-@ExtendWith(SerenityJUnit5Extension.class)
+@ExtendWith({SerenityJUnit5Extension.class, MockitoExtension.class})
 class ConstrainableTest implements WithAssertions {
 
     @Test
@@ -46,7 +47,7 @@ class ConstrainableTest implements WithAssertions {
     }
 
     @Test
-    void guard_throwsAValidationException_givenInvalidSourceData() {
+    void feedback_throwsAValidationException_givenInvalidSourceData() {
         var checked = Constrainable.constrain("")
                 .adheresTo(new Constraint<>(StringUtils::isNotBlank, "mustn't be blank"));
         assertThat(checked).is(invalid());
@@ -57,7 +58,7 @@ class ConstrainableTest implements WithAssertions {
     }
 
     @Test
-    void guard_hasNoEffect_givenValidSourceData() {
+    void feedback_hasNoEffect_givenValidSourceData() {
         var checked = Constrainable.constrain("I am a real String")
                 .adheresTo(new Constraint<>(StringUtils::isNotBlank, "mustn't be blank"));
         assertThat(checked).is(valid());
@@ -65,4 +66,25 @@ class ConstrainableTest implements WithAssertions {
         assertThatCode(() -> checked.feedback("This is an invalid object"))
                 .doesNotThrowAnyException();
     }
+
+    @Test
+    void guard_failsFastWhenInvalid() {
+
+        var rules = ModularRuleset.aValid(ToBeConstained.class)
+                .must(haveNonEmpty(ToBeConstained::firstName), "have a first name")
+                .must(haveNonEmpty(ToBeConstained::lastName), "have a last name")
+                .must(haveNonEmpty(ToBeConstained::dateOfBirth), "have a year of birth")
+                .done();
+
+        var constrainedRecord = rules.constrain(new ToBeConstained("", "", ""));
+
+        assertThatExceptionOfType(InvalidObjectException.class)
+                .isThrownBy(constrainedRecord::guard)
+                .extracting(InvalidObjectException::errors).asList()
+                .containsExactly("FAIL: [have a first name]");
+    }
+
+    private record ToBeConstained(String firstName, String lastName, String dateOfBirth) {
+    }
+
 }

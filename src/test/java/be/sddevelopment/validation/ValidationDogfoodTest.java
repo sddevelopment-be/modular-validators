@@ -55,7 +55,7 @@ class ValidationDogfoodTest implements WithAssertions {
                     .must(this::haveAName, "have a name")
                     .iHaveSpoken();
             var toValidate = new DateBasedDummyObject("", LocalDate.of(2023, MARCH, 9));
-            assertThat(validator.constrain(toValidate)).matches(Constrainable::isInvalid);
+            assertThat(validator.constrain(toValidate)).matches(dateBasedDummyObjectConstrainable -> !dateBasedDummyObjectConstrainable.isValid());
 
             var result = validator.constrain(toValidate);
 

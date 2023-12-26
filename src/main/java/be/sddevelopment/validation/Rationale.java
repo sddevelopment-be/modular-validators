@@ -30,4 +30,13 @@ public class Rationale {
         this.details.add(reason);
         return this;
     }
+
+    public boolean isPassing() {
+        return this.details.stream()
+                .allMatch(Reason::isPassing);
+    }
+
+    public boolean isFailing() {
+        return !this.isPassing();
+    }
 }

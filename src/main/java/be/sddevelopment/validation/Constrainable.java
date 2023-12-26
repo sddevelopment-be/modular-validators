@@ -26,11 +26,7 @@ public final class Constrainable<T> {
     }
 
     public boolean isValid() {
-        return this.toAdhereTo.validate(this.data);
-    }
-
-    public boolean isInvalid() {
-        return !isValid();
+        return this.toAdhereTo.quickCheck(this.data).isPassing();
     }
 
     Constrainable<T> adheresTo(Constraint<T> constraint) {
@@ -54,8 +50,17 @@ public final class Constrainable<T> {
     }
 
     public void feedback(String errorMessage) throws InvalidObjectException {
-        if (isInvalid()) {
+        var rationale = this.toAdhereTo.check(this.data);
+        if (rationale.isFailing()) {
             throw new InvalidObjectException(errorMessage, this.rationale());
         }
     }
+
+    public void guard() throws InvalidObjectException {
+        var rationale = this.toAdhereTo.quickCheck(this.data);
+        if (rationale.isFailing()) {
+            throw new InvalidObjectException("Object is invalid", rationale);
+        }
+    }
+
 }

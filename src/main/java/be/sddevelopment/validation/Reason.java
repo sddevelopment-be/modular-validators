@@ -27,4 +27,7 @@ public record Reason(String rationale, Evaluation result) {
         return PASS == this.result;
     }
 
+    public boolean isFailing() {
+        return FAIL == this.result;
+    }
 }

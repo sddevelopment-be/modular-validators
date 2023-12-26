@@ -1,5 +1,7 @@
 package be.sddevelopment.validation;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -27,6 +29,10 @@ public final class Validations {
      */
     public static <S> Predicate<S> haveNonNullField(Function<S, ?> extractor) {
         return not(haveNullField(extractor));
+    }
+
+    public static <S> Predicate<S> haveNonEmpty(Function<S, String> extractor) {
+        return extractor.andThen(StringUtils::isNotBlank)::apply;
     }
 
     /**
