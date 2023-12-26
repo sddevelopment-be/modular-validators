@@ -48,7 +48,7 @@ class ValidatorDogfoodTest implements WithAssertions {
     class CheckedUsages {
 
         @Test
-        void checkedShouldAllowForFluentUsage_whenUsingItAsAGuard() {
+        void checkedShouldAllowForFluentUsage_whenUsingItAsAGuard_givenInvalidObject() {
             var validator = aValid(DateBasedDummyObject.class)
                     .must(Objects::nonNull, "not be null")
                     .must(haveNonNullField(DateBasedDummyObject::localDate), "have a non-null local date")

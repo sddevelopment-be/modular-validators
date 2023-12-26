@@ -4,6 +4,7 @@ import net.serenitybdd.junit5.SerenityJUnit5Extension;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.platform.commons.util.StringUtils;
 
 import java.util.function.Predicate;
 
@@ -43,5 +44,26 @@ class CheckedTest implements WithAssertions {
                 .isPresent().get()
                 .extracting(EvaluationRationale::details).asList()
                 .contains(failed("mustn't be blank"));
+    }
+
+    @Test
+    void guard_throwsAValidationException_givenInvalidSourceData() {
+        var checked = Checked.of("")
+                .applyRule(new ValidationRule<>(StringUtils::isNotBlank, "mustn't be blank"));
+        assertThat(checked).is(invalid());
+
+        assertThatExceptionOfType(InvalidObjectException.class)
+                .isThrownBy(() -> checked.guard("This is an invalid object"))
+                .withMessage("This is an invalid object");
+    }
+
+    @Test
+    void guard_hasNoEffect_givenValidSourceData() {
+        var checked = Checked.of("I am a real String")
+                .applyRule(new ValidationRule<>(StringUtils::isNotBlank, "mustn't be blank"));
+        assertThat(checked).is(valid());
+
+        assertThatCode(() -> checked.guard("This is an invalid object"))
+                .doesNotThrowAnyException();
     }
 }

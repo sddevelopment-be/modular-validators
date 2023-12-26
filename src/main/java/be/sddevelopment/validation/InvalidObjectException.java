@@ -7,7 +7,7 @@ import static java.lang.String.format;
 
 public class InvalidObjectException extends Exception {
 
-    List<String> errors = new ArrayList<>();
+    private final List<String> errors = new ArrayList<>();
 
     public InvalidObjectException(String errorMessage, EvaluationRationale rationale) {
         super(errorMessage);
