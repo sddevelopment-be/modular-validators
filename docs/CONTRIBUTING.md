@@ -129,9 +129,8 @@ distinct sections:
 As an example, consider this piece of test code from `be.sddevelopment.validation.ConstrainableTest`
 
 ```java
-
 @Test
-void givenCheckedWithData_andInvalidData_whenApplyingRule_itIsEvaluatedAsInvalid() {
+void givenCheckedWithInvalidData_whenApplyingRule_itIsEvaluatedAsInvalid() {
     var empty = "";
     var rule = new Constraint<>(Predicate.not(String::isBlank), "mustn't be blank");
     assertThat(rule.rule().test(empty)).isFalse();
