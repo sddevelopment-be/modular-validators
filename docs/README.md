@@ -3,11 +3,12 @@
 A lightweight validation framework for the JVM, allowing for internal and external validation logic to be combined in a transparent and reusable
 way.
 
-| [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=sddevelopment-be_modular-validators&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=sddevelopment-be_modular-validators) | [Test report](serenity/) | [JavaDoc](apidocs/) |
+| [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=sddevelopment-be_modular-validators&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=sddevelopment-be_modular-validators) | [![All Contributors](https://img.shields.io/github/all-contributors/sddevelopment-be/modular-validators?color=ee8449&style=flat-square)](#contributors) | [Test report](serenity/) | [JavaDoc](apidocs/) |
 
 ---
 
 <!-- TOC -->
+* [Goal](#goal)
 * [Value statement](#value-statement)
   * [Problem](#problem)
   * [Proposed solution](#proposed-solution)
@@ -15,6 +16,15 @@ way.
 <!-- TOC -->
 
 ---
+
+## Goal
+
+The goal of this project is to provide a lightweight rule enforcement and validation framework for Java projects, allowing for internal and external validation logic to be combined in a transparent and reusable way.
+
+It will help avoid the need for writing complex custom validation solutions, by providing developers with pre-built rules and enforcers that can be combined in a modular way. The sections below describe the most common issues with existing (simplistic) validation frameworks, and how this project aims to adress them.
+
+If you are interested in seeing potential use cases for this project, please refer to the `ValidationDogfoodTest` included in the `src/main/test` directory of the repository.
+These tests cases are intended to provide a real-world example of how the different parts of the framework can be used.
 
 ## Value statement
 
@@ -54,5 +64,15 @@ There are various ways to contribute to this repository. You can help us out by:
 * Log issues in the github issue tracker
 * Send a Pull-Request
 
-You will need to use a compatible code style. The IntelliJ stylesheet
-is [included in the ./docs/utils](utils/SDDStyle.xml) folder. 
+If you would like to contribute code, please read the [`How to Contribute`](./CONTRIBUTING.md) guide included in the repository.
+
+## Contributors
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
