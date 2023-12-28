@@ -1,5 +1,21 @@
 {
   "projectName": "modular-validators",
   "projectOwner": "sddevelopment-be",
-  "files": ["docs/README.md"]
+  "files": [
+    "docs/README.md"
+  ],
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributorsPerLine": 7,
+  "contributors": [
+    {
+      "login": "noahweasley",
+      "name": "Ebenmelu Ifechukwu",
+      "avatar_url": "https://avatars.githubusercontent.com/u/43308031?v=4",
+      "profile": "http://noahweasley.github.io",
+      "contributions": [
+        "review"
+      ]
+    }
+  ]
 }
