@@ -33,7 +33,7 @@ class ConstrainableTest implements WithAssertions {
     }
 
     @Test
-    void givenCheckedWithData_andInvalidData_whenApplyingRule_itIsEvaluatedAsInvalid() {
+    void givenCheckedWithInvalidData_whenApplyingRule_itIsEvaluatedAsInvalid() {
         var empty = "";
         var rule = new Constraint<>(Predicate.not(String::isBlank), "mustn't be blank");
         assertThat(rule.rule().test(empty)).isFalse();
