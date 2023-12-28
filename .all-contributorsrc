@@ -1,4 +1,5 @@
 {
   "projectName": "modular-validators",
-  "projectOwner": "sddevelopment-be"
+  "projectOwner": "sddevelopment-be",
+  "files": ["docs/README.md"]
 }
