@@ -8,6 +8,9 @@ import java.util.function.Predicate;
 
 import static java.util.function.Predicate.not;
 
+/**
+ * <p>Utility class, used allow for a more straight-forward configuration of {@link ModularRuleset} constructs</p>
+ */
 public final class Constraints {
 
     private Constraints() {

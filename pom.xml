@@ -12,8 +12,7 @@
         Java library to create modular validator-objects. Intended to be used as a utility library in other
         projects to avoid the overhead of writing custom validation frameworks. Modular Validators supports the creation
         of specific validator objects, that can use both internal state, and external services to assess the validity of
-        an
-        object.
+        an object.
     </description>
 
     <distributionManagement>
@@ -30,10 +29,10 @@
         <sonar.projectKey>sddevelopment_modular-validators</sonar.projectKey>
         <sonar.coverage.jacoco.xmlReportPaths>${jacoco.build.dir}/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
         <jacoco.build.dir>${project.build.directory}/jacoco</jacoco.build.dir>
-        <serenity.version>4.0.30</serenity.version>
 
         <reportOutputDirectory>${project.basedir}/docs/</reportOutputDirectory>
         <java.version>21</java.version>
+        <encoding>UTF-8</encoding>
         <junit.jupiter.version>5.10.0</junit.jupiter.version>
     </properties>
 
@@ -72,18 +71,6 @@
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>3.23.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.serenity-bdd</groupId>
-            <artifactId>serenity-core</artifactId>
-            <version>${serenity.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.serenity-bdd</groupId>
-            <artifactId>serenity-junit5</artifactId>
-            <version>${serenity.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -194,43 +181,11 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>net.serenity-bdd.maven.plugins</groupId>
-                <artifactId>serenity-maven-plugin</artifactId>
-                <version>${serenity.version}</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>net.serenity-bdd</groupId>
-                        <artifactId>serenity-single-page-report</artifactId>
-                        <version>${serenity.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>net.serenity-bdd</groupId>
-                        <artifactId>serenity-navigator-report</artifactId>
-                        <version>${serenity.version}</version>
-                    </dependency>
-                </dependencies>
-                <executions>
-                    <execution>
-                        <id>serenity-reports</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>aggregate</goal>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
     <reporting>
         <plugins>
-            <plugin>
-                <groupId>net.serenity-bdd.maven.plugins</groupId>
-                <artifactId>serenity-maven-plugin</artifactId>
-                <version>4.0.30</version>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>

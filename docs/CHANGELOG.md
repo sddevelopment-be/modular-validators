@@ -31,6 +31,8 @@ Following changes are known:
 
 ### Added
 
+* Tests illustrating basic usage
+* Core functionality implementation
 * ReadMe.md file with project intent and outline
 * Root pom file with project name and outline
 * JavaDoc stylesheet
@@ -40,3 +42,5 @@ Following changes are known:
 ### Changed
 
 ### Removed
+
+* Removed Serenity BDD as a reporting framework, decision in ADR reflects reasoning

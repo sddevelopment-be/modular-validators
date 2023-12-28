@@ -1,9 +1,11 @@
 package be.sddevelopment.validation.core;
 
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 import static be.sddevelopment.validation.core.ModularRuleset.emptyRules;
 
 /**
- * <p>Evaluated class.</p>
  * <p>
  * Represents the result of evaluating an object of any type.
  * The result of said evaluation is represented by a {@link Rationale}.
@@ -12,7 +14,7 @@ import static be.sddevelopment.validation.core.ModularRuleset.emptyRules;
  *
  * <i>Intended as a <a href="https://en.wikipedia.org/wiki/Monad_(functional_programming)">monadic structure</a> to allow for fluent programming with the result of a validation.</i>
  *
- * @author stijnd
+ * @author Stijn Dejongh
  * @version 1.0.0-SNAPSHOT
  */
 public final class Constrainable<T> {
@@ -63,4 +65,13 @@ public final class Constrainable<T> {
         }
     }
 
+    public <R> Constrainable<R> extract(Function<T, R> extractor) {
+        return constrain(extractor.apply(this.data), emptyRules());
+    }
+
+    public void ifValid(Consumer<T> consumer) {
+        if (this.isValid()) {
+            consumer.accept(this.data);
+        }
+    }
 }

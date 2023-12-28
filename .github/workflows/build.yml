@@ -52,9 +52,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}  # Needed to get PR information, if any
 
-      - name: Publish test report
-        run: cp -r target/site/serenity/* docs/serenity/
-
       - name: Commit JavaDocs
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
