@@ -12,20 +12,12 @@ import static java.util.function.Predicate.not;
  * <p>Utility class, used allow for a more straight-forward configuration of {@link ModularRuleset} constructs</p>
  */
 public final class Constraints {
-
     private Constraints() {
         throw new UnsupportedOperationException("Utility classes (containing shared methods or constants) should not be instantiated.");
     }
-
-    public static <S> Predicate<S> haveNonNullField(Function<S, ?> extractor) {
-        return not(haveNullField(extractor));
+    public static final Constraint<String> IS_NOT_EMPTY = new Constraint<>(StringUtils::isNotBlank, "mustn't be blank");
+    public static Constraint<String> isNotEmpty() {
+        return IS_NOT_EMPTY;
     }
 
-    public static <S> Predicate<S> haveNonEmpty(Function<S, String> extractor) {
-        return extractor.andThen(StringUtils::isNotBlank)::apply;
-    }
-
-    public static <S> Predicate<S> haveNullField(Function<S, ?> extractor) {
-        return extractor.andThen(Objects::isNull)::apply;
-    }
 }

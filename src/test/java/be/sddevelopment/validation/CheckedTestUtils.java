@@ -8,9 +8,9 @@ import java.util.function.Predicate;
 
 public final class CheckedTestUtils {
 
-    private CheckedTestUtils() throws IllegalAccessException {
-        throw new IllegalAccessException("Utility classes (containing shared methods or constants) should not be instantiated.");
-    }
+//    private CheckedTestUtils() throws IllegalAccessException {
+//        throw new IllegalAccessException("Utility classes (containing shared methods or constants) should not be instantiated.");
+//    }
 
     public static Condition<Constrainable<?>> valid() {
         return new Condition<>(Constrainable::isValid, "valid");

@@ -24,16 +24,18 @@
     </distributionManagement>
 
     <properties>
+        <java.version>21</java.version>
+        <encoding>UTF-8</encoding>
+        <reportOutputDirectory>${project.basedir}/docs/</reportOutputDirectory>
+
+        <archunit.version>1.2.1</archunit.version>
+        <junit.jupiter.version>5.10.0</junit.jupiter.version>
+        <jacoco.build.dir>${project.build.directory}/jacoco</jacoco.build.dir>
+
         <sonar.organization>sddevelopment-be</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.projectKey>sddevelopment_modular-validators</sonar.projectKey>
         <sonar.coverage.jacoco.xmlReportPaths>${jacoco.build.dir}/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-        <jacoco.build.dir>${project.build.directory}/jacoco</jacoco.build.dir>
-
-        <reportOutputDirectory>${project.basedir}/docs/</reportOutputDirectory>
-        <java.version>21</java.version>
-        <encoding>UTF-8</encoding>
-        <junit.jupiter.version>5.10.0</junit.jupiter.version>
     </properties>
 
     <organization>
@@ -96,6 +98,19 @@
             <version>1.14.11</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.tngtech.archunit</groupId>
+            <artifactId>archunit</artifactId>
+            <version>${archunit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.tngtech.archunit</groupId>
+            <artifactId>archunit-junit5</artifactId>
+            <version>${archunit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- END TEST SCOPE -->
 
     </dependencies>

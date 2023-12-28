@@ -15,7 +15,7 @@ import java.util.Objects;
 
 import static be.sddevelopment.validation.CheckedTestUtils.invalid;
 import static be.sddevelopment.validation.CheckedTestUtils.valid;
-import static be.sddevelopment.validation.core.Constraints.haveNonNullField;
+import static be.sddevelopment.validation.core.Checks.haveNonNullField;
 import static be.sddevelopment.validation.core.ModularRuleset.aValid;
 import static java.time.Month.MARCH;
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;

@@ -7,14 +7,17 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.commons.util.StringUtils;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 
 import static be.sddevelopment.validation.CheckedTestUtils.invalid;
 import static be.sddevelopment.validation.CheckedTestUtils.valid;
+import static be.sddevelopment.validation.core.Constrainable.constrain;
 import static be.sddevelopment.validation.core.ModularRuleset.aValid;
 import static be.sddevelopment.validation.core.Reason.failed;
 import static be.sddevelopment.validation.core.Reason.passed;
-import static be.sddevelopment.validation.core.Constraints.haveNonEmpty;
+import static be.sddevelopment.validation.core.Checks.haveNonEmpty;
 
 @DisplayName("Constrainables")
 @ExtendWith({MockitoExtension.class})
@@ -26,7 +29,7 @@ class ConstrainableTest implements WithAssertions {
         var rule = new Constraint<>(Predicate.not(String::isBlank), "mustn't be blank");
         assertThat(rule.rule().test(contentToCheck)).isTrue();
 
-        var result = Constrainable.constrain(contentToCheck).adheresTo(rule);
+        var result = constrain(contentToCheck).adheresTo(rule);
 
         assertThat(result).is(valid());
         assertThat(result.rationale())
@@ -40,7 +43,7 @@ class ConstrainableTest implements WithAssertions {
         var rule = new Constraint<>(Predicate.not(String::isBlank), "mustn't be blank");
         assertThat(rule.rule().test(empty)).isFalse();
 
-        var result = Constrainable.constrain(empty).adheresTo(rule);
+        var result = constrain(empty).adheresTo(rule);
 
         assertThat(result).is(invalid());
         assertThat(result.rationale())
@@ -50,7 +53,7 @@ class ConstrainableTest implements WithAssertions {
 
     @Test
     void feedback_throwsAValidationException_givenInvalidSourceData() {
-        var checked = Constrainable.constrain("")
+        var checked = constrain("")
                 .adheresTo(new Constraint<>(StringUtils::isNotBlank, "mustn't be blank"));
         assertThat(checked).is(invalid());
 
@@ -61,12 +64,24 @@ class ConstrainableTest implements WithAssertions {
 
     @Test
     void feedback_hasNoEffect_givenValidSourceData() {
-        var checked = Constrainable.constrain("I am a real String")
+        var checked = constrain("I am a real String")
                 .adheresTo(new Constraint<>(StringUtils::isNotBlank, "mustn't be blank"));
         assertThat(checked).is(valid());
 
         assertThatCode(() -> checked.feedback("This is an invalid object"))
                 .doesNotThrowAnyException();
+    }
+
+    @Test
+    void ifValid_givenTheDateIsValid_CallsTheProvidedConsumer() {
+        var checked = constrain("I am a real String").adheresTo(Constraints.isNotEmpty());
+        var consumer = new MessageStore();
+        assertThat(checked).is(valid());
+        assertThat(consumer.messages()).isEmpty();
+
+        checked.ifValid(consumer::store);
+
+
     }
 
     @Test
@@ -86,5 +101,16 @@ class ConstrainableTest implements WithAssertions {
     }
 
     private record ToBeConstrained(String firstName, String lastName, String dateOfBirth) {
+    }
+
+    private static class MessageStore {
+        private final List<String> messages = new ArrayList<>();
+
+        void store(String message) {
+            messages.add(message);
+        }
+         List<String> messages() {
+             return messages;
+         }
     }
 }

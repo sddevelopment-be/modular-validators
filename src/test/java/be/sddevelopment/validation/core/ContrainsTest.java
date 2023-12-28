@@ -4,7 +4,7 @@ import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static be.sddevelopment.validation.core.Constraints.haveNonNullField;
+import static be.sddevelopment.validation.core.Checks.haveNonNullField;
 
 @DisplayName("Constraints utility class")
 class ContrainsTest implements WithAssertions {
