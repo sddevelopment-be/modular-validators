@@ -14,8 +14,8 @@ public final class ModularRuleset<T> {
         this.rules.addAll(rules);
     }
 
-    public Constrainable<T> constrain(T toValidate) {
-        return Constrainable.of(toValidate, this);
+    public Constrained<T> constrain(T toValidate) {
+        return Constrained.of(toValidate, this);
     }
 
     public Rationale assess(T toValidate) {

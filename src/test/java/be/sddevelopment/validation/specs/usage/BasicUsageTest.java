@@ -49,11 +49,11 @@ class BasicUsageTest implements WithAssertions {
 
     @Nested
     @DisplayName("Constrained objects should allow for fluent usage")
-    class ConstrainableUsage {
-        private static final ModularRuleset<DateBasedDummyObject> DATE_REQUIREMENTS = aValid(ConstrainableUsage.DateBasedDummyObject.class)
+    class ConstrainedUsage {
+        private static final ModularRuleset<DateBasedDummyObject> DATE_REQUIREMENTS = aValid(ConstrainedUsage.DateBasedDummyObject.class)
                 .must(Objects::nonNull, "not be null")
                 .must(haveNonNullField(DateBasedDummyObject::localDate), "have a non-null local date")
-                .must(ConstrainableUsage::haveAName, "have a name")
+                .must(ConstrainedUsage::haveAName, "have a name")
                 .iHaveSpoken();
 
         private static ModularRuleset<DateBasedDummyObject> requirements() {

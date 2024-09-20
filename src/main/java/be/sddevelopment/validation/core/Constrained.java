@@ -17,12 +17,12 @@ import static be.sddevelopment.validation.core.ModularRuleset.emptyRules;
  * @author Stijn Dejongh
  * @version 1.0.0-SNAPSHOT
  */
-public final class Constrainable<T> {
+public final class Constrained<T> {
 
     private final T data;
     private final ModularRuleset<T> toAdhereTo;
 
-    private Constrainable(T toValidate, ModularRuleset<T> toAdhereTo) {
+    private Constrained(T toValidate, ModularRuleset<T> toAdhereTo) {
         this.data = toValidate;
         this.toAdhereTo = toAdhereTo;
     }
@@ -31,20 +31,20 @@ public final class Constrainable<T> {
         return this.toAdhereTo.quickCheck(this.data).isPassing();
     }
 
-    Constrainable<T> adheresTo(Constraint<T> constraint) {
-        return new Constrainable<>(this.data, this.toAdhereTo.toBuilder().must(constraint).done());
+    public Constrained<T> adheresTo(Constraint<T> constraint) {
+        return new Constrained<>(this.data, this.toAdhereTo.toBuilder().must(constraint).done());
     }
 
-    public static <T> Constrainable<T> constrain(T toConstrain) {
+    public static <T> Constrained<T> constrain(T toConstrain) {
         return constrain(toConstrain, emptyRules());
     }
 
-    public static <T> Constrainable<T> constrain(T toConstrain, ModularRuleset<T> ruleset) {
+    public static <T> Constrained<T> constrain(T toConstrain, ModularRuleset<T> ruleset) {
         return of(toConstrain, ruleset);
     }
 
-    public static <T> Constrainable<T> of(T toConstrain, ModularRuleset<T> ruleset) {
-        return new Constrainable<>(toConstrain, ruleset);
+    public static <T> Constrained<T> of(T toConstrain, ModularRuleset<T> ruleset) {
+        return new Constrained<>(toConstrain, ruleset);
     }
 
     public Rationale rationale() {
@@ -65,7 +65,7 @@ public final class Constrainable<T> {
         }
     }
 
-    public <R> Constrainable<R> extract(Function<T, R> extractor) {
+    public <R> Constrained<R> extract(Function<T, R> extractor) {
         return constrain(extractor.apply(this.data), emptyRules());
     }
 

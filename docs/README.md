@@ -64,7 +64,7 @@ There are various ways to contribute to this repository. You can help us out by:
 * Log issues in the github issue tracker
 * Send a Pull-Request
 
-If you would like to contribute code, please read the [`How to Contribute`](https://sddevelopment-be.github.io/modular-validators/CONTRIBUTING.html) guide included in the repository.
+If you would like to contribute code, please read the [`How to Contribute`](./CONTRIBUTING.md) guide included in the repository.
 
 ## Contributors
 
