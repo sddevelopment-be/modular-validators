@@ -71,7 +71,7 @@ class BasicUsageTest implements WithAssertions {
             assertThatExceptionOfType(InvalidObjectException.class)
                     .isThrownBy(() -> result.feedback("Object should be valid"))
                     .withMessage("Object should be valid")
-                    .extracting(InvalidObjectException::errors).asList()
+                    .extracting(InvalidObjectException::errors).asInstanceOf(LIST)
                     .contains("FAIL: [have a name]");
         }
 

@@ -13,11 +13,11 @@ import java.util.function.Predicate;
 
 import static be.sddevelopment.validation.CheckedTestUtils.invalid;
 import static be.sddevelopment.validation.CheckedTestUtils.valid;
+import static be.sddevelopment.validation.core.Checks.haveNonEmpty;
 import static be.sddevelopment.validation.core.Constrained.constrain;
 import static be.sddevelopment.validation.core.ModularRuleset.aValid;
 import static be.sddevelopment.validation.core.Reason.failed;
 import static be.sddevelopment.validation.core.Reason.passed;
-import static be.sddevelopment.validation.core.Checks.haveNonEmpty;
 
 @DisplayName("Constrainables")
 @ExtendWith({MockitoExtension.class})
@@ -109,8 +109,9 @@ class ConstrainedTest implements WithAssertions {
         void store(String message) {
             messages.add(message);
         }
-         List<String> messages() {
-             return messages;
-         }
+
+        List<String> messages() {
+            return messages;
+        }
     }
 }
