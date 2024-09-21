@@ -1,1 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><testsuite errors="0" failures="0" name="be.sddevelopment.validation.CheckedTest" skipped="0" tests="1" time="0.0" timestamp="2023-12-26 08:27:16"><testcase classname="be.sddevelopment.validation.CheckedTest" name="Given checked with data when applying rule its evaluation is remembered"/></testsuite>

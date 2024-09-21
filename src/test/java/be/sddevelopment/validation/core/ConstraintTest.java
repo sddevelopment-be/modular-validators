@@ -37,13 +37,13 @@ class ConstraintTest implements WithAssertions {
                 .requires(Predicate.not(List.of("Idiot", "Fracking", "Noob")::contains))
                 .done();
 
-        var result = Constrainable.constrain("Idiot")
+        var result = Constrained.constrain("Idiot")
                 .adheresTo(rule)
                 .adheresTo(otherRule);
 
         assertThat(result).is(CheckedTestUtils.invalid())
-                .extracting(Constrainable::rationale)
-                .extracting(Rationale::details).asList()
+                .extracting(Constrained::rationale)
+                .extracting(Rationale::details).asInstanceOf(LIST)
                 .contains(passed("Must be filled in"), failed("Be polite"));
     }
 

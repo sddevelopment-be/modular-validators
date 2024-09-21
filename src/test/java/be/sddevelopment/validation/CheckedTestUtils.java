@@ -1,6 +1,6 @@
 package be.sddevelopment.validation;
 
-import be.sddevelopment.validation.core.Constrainable;
+import be.sddevelopment.validation.core.Constrained;
 import be.sddevelopment.validation.core.Reason;
 import org.assertj.core.api.Condition;
 
@@ -12,12 +12,12 @@ public final class CheckedTestUtils {
         throw new IllegalAccessException("Utility classes (containing shared methods or constants) should not be instantiated.");
     }
 
-    public static Condition<Constrainable<?>> valid() {
-        return new Condition<>(Constrainable::isValid, "valid");
+    public static Condition<Constrained<?>> valid() {
+        return new Condition<>(Constrained::isValid, "valid");
     }
 
-    public static Condition<Constrainable<?>> invalid() {
-        return new Condition<>(Predicate.not(Constrainable::isValid), "invalid");
+    public static Condition<Constrained<?>> invalid() {
+        return new Condition<>(Predicate.not(Constrained::isValid), "invalid");
     }
 
     public static Condition<Reason> passing() {

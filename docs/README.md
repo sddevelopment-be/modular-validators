@@ -3,7 +3,7 @@
 A lightweight validation framework for the JVM, allowing for internal and external validation logic to be combined in a transparent and reusable
 way.
 
-| [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=sddevelopment-be_modular-validators&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=sddevelopment-be_modular-validators) | [![All Contributors](https://img.shields.io/github/all-contributors/sddevelopment-be/modular-validators?color=ee8449&style=flat-square)](#contributors) | [Test report](serenity/) | [JavaDoc](apidocs/) |
+| [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=sddevelopment-be_modular-validators&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=sddevelopment-be_modular-validators) | [![All Contributors](https://img.shields.io/github/all-contributors/sddevelopment-be/modular-validators?color=ee8449&style=flat-square)](#contributors) | [JavaDoc](https://sddevelopment-be.github.io/modular-validators/apidocs/) |
 
 ---
 

@@ -139,7 +139,7 @@ void givenCheckedWithInvalidData_whenApplyingRule_itIsEvaluatedAsInvalid() {
 
     assertThat(result).is(invalid());
     assertThat(result.rationale())
-            .extracting(Rationale::details).asList()
+            .extracting(Rationale::details).asInstanceOf(LIST)
             .contains(failed("mustn't be blank"));
 }
 ```

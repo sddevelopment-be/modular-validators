@@ -39,4 +39,5 @@ public class Rationale {
     public boolean isFailing() {
         return !this.isPassing();
     }
+
 }
