@@ -17,6 +17,14 @@ import java.util.function.Predicate;
  */
 public record Constraint<T>(Predicate<T> rule, String description) {
 
+    /**
+     * Factory method to create a new {@link ConstraintBuilder} instance.
+     *
+     * @param <S>          type of the object onto which the rule can be applied
+     * @param ignoredClass class to be ignored, as this method is only used as a type parameter
+     *                     to create a new instance of the builder
+     * @return a new instance of the {@link ConstraintBuilder} class, able to evaluate a rule on an object of type S
+     */
     public static <S> ConstraintBuilder<S> ruleFor(Class<S> ignoredClass) {
         return new ConstraintBuilder<>();
     }

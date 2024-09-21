@@ -33,7 +33,7 @@ class ConstrainedTest implements WithAssertions {
 
         assertThat(result).is(valid());
         assertThat(result.rationale())
-                .extracting(Rationale::details).asList()
+                .extracting(Rationale::details).asInstanceOf(LIST)
                 .contains(passed("mustn't be blank"));
     }
 
@@ -47,7 +47,7 @@ class ConstrainedTest implements WithAssertions {
 
         assertThat(result).is(invalid());
         assertThat(result.rationale())
-                .extracting(Rationale::details).asList()
+                .extracting(Rationale::details).asInstanceOf(LIST)
                 .contains(failed("mustn't be blank"));
     }
 
@@ -81,7 +81,7 @@ class ConstrainedTest implements WithAssertions {
 
         checked.ifValid(consumer::store);
 
-
+        assertThat(consumer.messages()).containsExactly("I am a real String");
     }
 
     @Test
@@ -96,7 +96,7 @@ class ConstrainedTest implements WithAssertions {
 
         assertThatExceptionOfType(InvalidObjectException.class)
                 .isThrownBy(constrainedRecord::guard)
-                .extracting(InvalidObjectException::errors).asList()
+                .extracting(InvalidObjectException::errors).asInstanceOf(LIST)
                 .containsExactly("FAIL: [have a first name]");
     }
 

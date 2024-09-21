@@ -26,33 +26,33 @@ import static org.junit.platform.commons.util.ReflectionUtils.makeAccessible;
 class CodeConventionsTest implements WithAssertions {
 
     @ArchTest
-    private final ArchRule no_access_to_standard_streams = NO_CLASSES_SHOULD_ACCESS_STANDARD_STREAMS;
+    static final ArchRule CLASSES_DO_NOT_ACCESS_STANDARD_STREAMS = NO_CLASSES_SHOULD_ACCESS_STANDARD_STREAMS;
 
     @ArchTest
-    void no_access_to_standard_streams_as_method(JavaClasses classes) {
+    void noAccessToStandardStreamsAsMethod(JavaClasses classes) {
         noClasses().should(ACCESS_STANDARD_STREAMS).check(classes);
     }
 
     @ArchTest
-    private final ArchRule no_classes_should_use_field_injection = NO_CLASSES_SHOULD_USE_FIELD_INJECTION;
+    static final ArchRule NO_CLASSES_USE_FIELD_INJECTION = NO_CLASSES_SHOULD_USE_FIELD_INJECTION;
 
     @ArchTest
-    private final ArchRule no_generic_exceptions = NO_CLASSES_SHOULD_THROW_GENERIC_EXCEPTIONS;
+    static final ArchRule NO_GENERIC_EXCEPTION = NO_CLASSES_SHOULD_THROW_GENERIC_EXCEPTIONS;
 
     @ArchTest
-    private final ArchRule no_java_util_logging = NO_CLASSES_SHOULD_USE_JAVA_UTIL_LOGGING;
+    static final ArchRule NO_JAVA_UTIL_LOGGING = NO_CLASSES_SHOULD_USE_JAVA_UTIL_LOGGING;
 
     @ArchTest
-    private final ArchRule no_jodatime = NO_CLASSES_SHOULD_USE_JODATIME;
+    static final ArchRule NO_JODATIME = NO_CLASSES_SHOULD_USE_JODATIME;
 
     @ArchTest
-    private final ArchRule utility_classes_can_not_be_instantiated = noClasses()
+    static final ArchRule UTILITY_CLASSES_CAN_NOT_BE_INSTANTIATED = noClasses()
             .that().haveModifier(FINAL)
             .and().haveSimpleNameNotContaining("Test")
             .and().areNotEnums()
             .should(beInstantiatable());
 
-    private ArchCondition<? super JavaClass> beInstantiatable() {
+    static ArchCondition<? super JavaClass> beInstantiatable() {
         return new ArchCondition<>("be instantiatable") {
             @Override
             public void check(JavaClass item, ConditionEvents events) {
@@ -65,7 +65,7 @@ class CodeConventionsTest implements WithAssertions {
         };
     }
 
-    boolean isInstantiatable(JavaClass classToCheck) {
+    static boolean isInstantiatable(JavaClass classToCheck) {
 
         try {
             if (classToCheck.getConstructors().stream()

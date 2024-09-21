@@ -43,7 +43,7 @@ class ConstraintTest implements WithAssertions {
 
         assertThat(result).is(CheckedTestUtils.invalid())
                 .extracting(Constrained::rationale)
-                .extracting(Rationale::details).asList()
+                .extracting(Rationale::details).asInstanceOf(LIST)
                 .contains(passed("Must be filled in"), failed("Be polite"));
     }
 
