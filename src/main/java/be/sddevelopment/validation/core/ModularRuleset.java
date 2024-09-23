@@ -63,6 +63,10 @@ public final class ModularRuleset<T> {
             return must(new Constraint<>(requirement, description));
         }
 
+        public ModularValidatorBuilder<S> mayNot(Predicate<S> interdiction, String description) {
+            return must(interdiction.negate(), description);
+        }
+
         public ModularValidatorBuilder<S> must(Constraint<S> rule) {
             this.rules.add(rule);
             return this;
@@ -80,5 +84,6 @@ public final class ModularRuleset<T> {
         public ModularRuleset<S> done() {
             return new ModularRuleset<>(this.rules);
         }
+
     }
 }

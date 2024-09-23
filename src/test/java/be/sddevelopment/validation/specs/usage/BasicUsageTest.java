@@ -1,10 +1,11 @@
 package be.sddevelopment.validation.specs.usage;
 
-import be.sddevelopment.validation.core.Constraint;
-import be.sddevelopment.validation.core.InvalidObjectException;
-import be.sddevelopment.validation.core.ModularRuleset;
+import be.sddevelopment.validation.core.*;
+import com.google.common.collect.ImmutableList;
+import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -12,6 +13,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
+import java.util.function.Predicate;
 
 import static be.sddevelopment.validation.CheckedTestUtils.invalid;
 import static be.sddevelopment.validation.CheckedTestUtils.valid;
@@ -20,6 +23,8 @@ import static be.sddevelopment.validation.core.ModularRuleset.aValid;
 import static java.time.Month.MARCH;
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 import static java.util.Optional.ofNullable;
+import static java.util.UUID.randomUUID;
+import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
 
 @DisplayName("Basic Usage")
 class BasicUsageTest implements WithAssertions {
@@ -27,8 +32,10 @@ class BasicUsageTest implements WithAssertions {
     @Nested
     @DisplayName("Can be used as Validators")
     class ValidatorUsage {
+        private static final List<String> PROHIBITED_ATOMS = List.of("invalid", "forbidden", "banned");
+
         @Test
-        void modularValidatorsMustCoverBasicUsage_givenSimpleDateBasedValidationLogic() {
+        void canHandleBasicDateLogic() {
             var toValidate = new DateBasedDummyObject(LocalDate.of(2023, MARCH, 9));
             assertThat(toValidate).isNotNull()
                     .extracting(DateBasedDummyObject::localDate)
@@ -39,12 +46,42 @@ class BasicUsageTest implements WithAssertions {
                     .must(notBeNull)
                     .must(haveNonNullField(DateBasedDummyObject::localDate), "have a non-null local date")
                     .iHaveSpoken();
+            Constrained<DateBasedDummyObject> constrained = validator.constrain(toValidate);
 
-            assertThat(validator.constrain(toValidate)).is(valid());
+            assertThat(constrained).is(valid());
+            assertThat(constrained)
+                    .extracting(Constrained::rationale)
+                    .matches(Rationale::isPassing);
         }
 
-        private record DateBasedDummyObject(LocalDate localDate) {
+        private record DateBasedDummyObject(LocalDate localDate) {}
+
+        @Test
+        void canHandleEmailValidation() {
+            var invalidEmail = new EmailContact(randomUUID(), "invalid email", "Bob", "The Builder");
+            assertThat(invalidEmail).matches(ValidatorUsage::containsProhibitedAtoms, "contains prohibited atoms");
+
+            var toCheck = aValid(EmailContact.class)
+                    .must(Objects::nonNull, "not be null")
+                    .must(haveNonNullField(EmailContact::email), "have a non-null email")
+                    .mayNot(ValidatorUsage::containsProhibitedAtoms, "not contain prohibited atoms")
+                    .iHaveSpoken()
+                    .constrain(invalidEmail);
+
+            assertThat(toCheck).is(invalid());
+            assertThatThrownBy(() -> toCheck.feedback("Email should be valid"))
+                    .isInstanceOf(InvalidObjectException.class)
+                    .hasMessageContaining("Email should be valid");
         }
+
+        private static boolean containsProhibitedAtoms(EmailContact emailContact) {
+            return PROHIBITED_ATOMS
+                    .parallelStream()
+                    .anyMatch(atom -> containsIgnoreCase(emailContact.email(), atom));
+        }
+
+        private record EmailContact(UUID userIdentifier, String email, String name, String lastName) { }
+
     }
 
     @Nested
@@ -77,10 +114,10 @@ class BasicUsageTest implements WithAssertions {
 
         @Test
         void allowsForFurtherProcessing() {
-            var toBeUsed = new DateBasedDummyObject("I have a name", LocalDate.of(2023, MARCH, 9));
             var dateLoggingService = new DateLoggingService();
-            assertThat(requirements().constrain(toBeUsed)).is(valid());
             assertThat(dateLoggingService.logLines()).isEmpty();
+            var toBeUsed = new DateBasedDummyObject("I have a name", LocalDate.of(2023, MARCH, 9));
+            assertThat(requirements().constrain(toBeUsed)).is(valid());
 
             requirements().constrain(toBeUsed)
                     .extract(DateBasedDummyObject::localDate)
