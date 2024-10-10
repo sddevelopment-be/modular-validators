@@ -32,6 +32,8 @@
         <junit.jupiter.version>5.11.0</junit.jupiter.version>
         <assertj.version>3.26.3</assertj.version>
         <jacoco.build.dir>${project.build.directory}/jacoco</jacoco.build.dir>
+        <jacoco.build.dir>${project.build.directory}/jacoco</jacoco.build.dir>
+        <ssd.utils.version>1.0.0-SNAPSHOT</ssd.utils.version>
 
         <sonar.organization>sddevelopment-be</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
@@ -56,8 +58,19 @@
 
     <dependencies>
         <!-- -->
+        <dependency>
+            <groupId>be.sddevelopment</groupId>
+            <artifactId>code-utils</artifactId>
+            <version>${ssd.utils.version}</version>
+        </dependency>
 
         <!-- BEGIN TEST SCOPE -->
+        <dependency>
+            <groupId>be.sddevelopment.commons</groupId>
+            <artifactId>commons-testing</artifactId>
+            <version>${ssd.utils.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -214,6 +227,28 @@
 
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>github</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <repositories>
+                <repository>
+                    <id>central</id>
+                    <url>https://repo1.maven.org/maven2</url>
+                </repository>
+                <repository>
+                    <id>github-sdd</id>
+                    <url>https://maven.pkg.github.com/sddevelopment-be/*</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
 
     <reporting>
         <plugins>
