@@ -1,5 +1,6 @@
 package be.sddevelopment.validation.specs.usage;
 
+import be.sddevelopment.commons.testing.naming.ReplaceUnderscoredCamelCasing;
 import be.sddevelopment.validation.core.*;
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.StringUtils;
@@ -27,6 +28,7 @@ import static java.util.UUID.randomUUID;
 import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
 
 @DisplayName("Basic Usage")
+@DisplayNameGeneration(ReplaceUnderscoredCamelCasing.class)
 class BasicUsageTest implements WithAssertions {
 
     @Nested
@@ -85,7 +87,7 @@ class BasicUsageTest implements WithAssertions {
     }
 
     @Nested
-    @DisplayName("Constrained objects should allow for fluent usage")
+    @DisplayName("Constrained objects allow for fluent usage")
     class ConstrainedUsage {
         private static final ModularRuleset<DateBasedDummyObject> DATE_REQUIREMENTS = aValid(ConstrainedUsage.DateBasedDummyObject.class)
                 .must(Objects::nonNull, "not be null")

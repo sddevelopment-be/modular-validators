@@ -1,7 +1,9 @@
 package be.sddevelopment.validation.core;
 
+import be.sddevelopment.commons.testing.naming.ReplaceUnderscoredCamelCasing;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.commons.util.StringUtils;
@@ -21,10 +23,11 @@ import static be.sddevelopment.validation.core.Reason.passed;
 
 @DisplayName("Constrainables")
 @ExtendWith({MockitoExtension.class})
+@DisplayNameGeneration(ReplaceUnderscoredCamelCasing.class)
 class ConstrainedTest implements WithAssertions {
 
     @Test
-    void givenValidData_whenApplyingRule_itsEvaluationIsRemembered() {
+    void ruleEvaluationResultIsRetained_givenValidData_whenApplyingRule() {
         var contentToCheck = "This is a non empty String";
         var rule = new Constraint<>(Predicate.not(String::isBlank), "mustn't be blank");
         assertThat(rule.rule().test(contentToCheck)).isTrue();
@@ -38,7 +41,7 @@ class ConstrainedTest implements WithAssertions {
     }
 
     @Test
-    void givenInvalidData_whenApplyingRule_itIsEvaluatedAsInvalid() {
+    void ruleEvaluationResultIsInvalid_givenInvalidData_whenApplyingRule() {
         var empty = "";
         var rule = new Constraint<>(Predicate.not(String::isBlank), "mustn't be blank");
         assertThat(rule.rule().test(empty)).isFalse();
@@ -73,7 +76,7 @@ class ConstrainedTest implements WithAssertions {
     }
 
     @Test
-    void ifValid_givenTheDateIsValid_CallsTheProvidedConsumer() {
+    void callsAProvidedConsumer_givenTheDataIsValid() {
         var checked = constrain("I am a real String").adheresTo(Constraints.isNotEmpty());
         var consumer = new MessageStore();
         assertThat(checked).is(valid());
