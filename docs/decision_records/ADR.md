@@ -16,4 +16,3 @@ see: [adr.github.io](https://adr.github.io/)
 | [Validation DSL](./validation_dsl.md)                  |  `approved`   | 2024-11-26 |      |
 
 
-## Maintainability 1: 
