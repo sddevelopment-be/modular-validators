@@ -15,6 +15,11 @@
         an object.
     </description>
 
+    <modules>
+        <module>core</module>
+        <module>dsl</module>
+    </modules>
+
     <distributionManagement>
         <repository>
             <id>github</id>
@@ -163,7 +168,7 @@
                 <version>3.5.0</version>
                 <configuration>
                     <stylesheet>maven</stylesheet>
-                    <javadocDirectory>src/main/javadoc</javadocDirectory>
+                    <javadocDirectory>core/src/main/javadoc</javadocDirectory>
                     <addStylesheets>
                         <resources>/styles/stylesheet.css</resources>
                     </addStylesheets>
@@ -223,7 +228,7 @@
                 <version>3.5.0</version>
                 <configuration>
                     <stylesheet>maven</stylesheet>
-                    <javadocDirectory>src/main/javadoc</javadocDirectory>
+                    <javadocDirectory>core/src/main/javadoc</javadocDirectory>
                     <addStylesheets>
                         <resources>${project.basedir}/javadoc/stylesheet.css</resources>
                     </addStylesheets>
