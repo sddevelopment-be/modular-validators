@@ -29,6 +29,13 @@
         </repository>
     </distributionManagement>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>ossrh-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <properties>
         <java.version>21</java.version>
         <encoding>UTF-8</encoding>
@@ -43,6 +50,8 @@
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.projectKey>sddevelopment_modular-validators</sonar.projectKey>
         <sonar.coverage.jacoco.xmlReportPaths>${jacoco.build.dir}/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+
+        <rewrite.version>5.36.0</rewrite.version>
     </properties>
 
     <organization>
@@ -216,6 +225,59 @@
                         <exclude>be/sddevelopment/**/*TestUtils*/</exclude>
                     </excludes>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.openrewrite.maven</groupId>
+                <artifactId>rewrite-maven-plugin</artifactId>
+                <version>${rewrite.version}</version>
+                <configuration>
+                    <exportDatatables>true</exportDatatables>
+                    <activeRecipes>
+                        <recipe>org.openrewrite.java.testing.junit5.JUnit5BestPractices</recipe>
+                        <recipe>org.openrewrite.github.PreferTemurinDistributions</recipe>
+                        <recipe>org.openrewrite.github.SetupJavaCaching</recipe>
+                        <recipe>org.openrewrite.staticanalysis.AnnotateNullableMethods</recipe>
+                        <recipe>org.openrewrite.staticanalysis.ChainStringBuilderAppendCalls</recipe>
+                        <recipe>org.openrewrite.staticanalysis.CompareEnumsWithEqualityOperator</recipe>
+                        <recipe>org.openrewrite.staticanalysis.ExplicitLambdaArgumentTypes</recipe>
+                        <recipe>org.openrewrite.staticanalysis.FixStringFormatExpressions</recipe>
+                        <recipe>org.openrewrite.staticanalysis.MissingOverrideAnnotation</recipe>
+                        <recipe>org.openrewrite.staticanalysis.ModifierOrder</recipe>
+                        <recipe>org.openrewrite.staticanalysis.NeedBraces</recipe>
+                        <recipe>org.openrewrite.staticanalysis.NoFinalizedLocalVariables</recipe>
+                        <recipe>org.openrewrite.staticanalysis.OperatorWrap</recipe>
+                        <recipe>org.openrewrite.staticanalysis.RemoveEmptyJavaDocParameters</recipe>
+                        <recipe>org.openrewrite.staticanalysis.RemoveExtraSemicolons</recipe>
+                        <recipe>org.openrewrite.staticanalysis.RenameLocalVariablesToCamelCase</recipe>
+                        <recipe>org.openrewrite.staticanalysis.SimplifyTernaryRecipes</recipe>
+                        <recipe>org.openrewrite.staticanalysis.UseSystemLineSeparator</recipe>
+                        <recipe>org.openrewrite.java.dependencies.DependencyVulnerabilityCheck</recipe>
+                    </activeRecipes>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.openrewrite.recipe</groupId>
+                        <artifactId>rewrite-java-dependencies</artifactId>
+                        <version>1.23.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.openrewrite.recipe</groupId>
+                        <artifactId>rewrite-testing-frameworks</artifactId>
+                        <version>2.22.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.openrewrite.recipe</groupId>
+                        <artifactId>rewrite-github-actions</artifactId>
+                        <version>2.9.2</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.openrewrite.recipe</groupId>
+                        <artifactId>rewrite-static-analysis</artifactId>
+                        <version>1.20.0</version>
+                    </dependency>
+
+                </dependencies>
             </plugin>
 
         </plugins>
