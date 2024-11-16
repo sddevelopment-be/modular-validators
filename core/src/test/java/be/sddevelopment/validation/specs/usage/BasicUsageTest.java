@@ -1,11 +1,8 @@
 package be.sddevelopment.validation.specs.usage;
 
 import be.sddevelopment.validation.core.*;
-import com.google.common.collect.ImmutableList;
-import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.function.Predicate;
 
 import static be.sddevelopment.validation.CheckedTestUtils.invalid;
 import static be.sddevelopment.validation.CheckedTestUtils.valid;
@@ -54,7 +50,8 @@ class BasicUsageTest implements WithAssertions {
                     .matches(Rationale::isPassing);
         }
 
-        private record DateBasedDummyObject(LocalDate localDate) {}
+        private record DateBasedDummyObject(LocalDate localDate) {
+        }
 
         @Test
         void canHandleEmailValidation() {
@@ -80,7 +77,8 @@ class BasicUsageTest implements WithAssertions {
                     .anyMatch(atom -> containsIgnoreCase(emailContact.email(), atom));
         }
 
-        private record EmailContact(UUID userIdentifier, String email, String name, String lastName) { }
+        private record EmailContact(UUID userIdentifier, String email, String name, String lastName) {
+        }
 
     }
 

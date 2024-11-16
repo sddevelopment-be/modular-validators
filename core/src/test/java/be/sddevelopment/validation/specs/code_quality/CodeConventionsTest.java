@@ -79,7 +79,7 @@ class CodeConventionsTest implements WithAssertions {
                 return false;
             }
         } catch (UnsupportedOperationException | InstantiationException |
-                 IllegalAccessException | InvocationTargetException e) {
+                IllegalAccessException | InvocationTargetException e) {
             return false;
         }
     }
