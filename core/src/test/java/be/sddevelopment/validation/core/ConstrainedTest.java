@@ -1,7 +1,9 @@
 package be.sddevelopment.validation.core;
 
+import be.sddevelopment.commons.testing.naming.ReplaceUnderscoredCamelCasing;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.commons.util.StringUtils;
@@ -21,6 +23,7 @@ import static be.sddevelopment.validation.core.Reason.passed;
 
 @DisplayName("Constrainables")
 @ExtendWith({MockitoExtension.class})
+@DisplayNameGeneration(ReplaceUnderscoredCamelCasing.class)
 class ConstrainedTest implements WithAssertions {
 
     @Test

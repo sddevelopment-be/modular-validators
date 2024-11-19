@@ -1,8 +1,10 @@
 package be.sddevelopment.validation.specs.usage;
 
+import be.sddevelopment.commons.testing.naming.ReplaceUnderscoredCamelCasing;
 import be.sddevelopment.validation.core.*;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -23,6 +25,7 @@ import static java.util.UUID.randomUUID;
 import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
 
 @DisplayName("Basic Usage")
+@DisplayNameGeneration(ReplaceUnderscoredCamelCasing.class)
 class BasicUsageTest implements WithAssertions {
 
     @Nested

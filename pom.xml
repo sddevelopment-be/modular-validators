@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>be.sddevelopment</groupId>
+  <groupId>be.sddevelopment.validation</groupId>
   <artifactId>modular-validators</artifactId>
   <version>1.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
@@ -60,23 +60,40 @@
     <sonar.projectKey>sddevelopment_modular-validators</sonar.projectKey>
     <sonar.coverage.jacoco.xmlReportPaths>${jacoco.build.dir}/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 
+    <code.utils.version>1.0.0-SNAPSHOT</code.utils.version>
     <rewrite.version>5.36.0</rewrite.version>
   </properties>
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>be.sddevelopment</groupId>
+        <groupId>be.sddevelopment.validation</groupId>
         <artifactId>core</artifactId>
-        <version>${version}</version>
+        <version>1.1.0-SNAPSHOT</version>
       </dependency>
-
       <dependency>
-        <groupId>be.sddevelopment</groupId>
+        <groupId>be.sddevelopment.validation</groupId>
         <artifactId>dsl</artifactId>
         <version>${version}</version>
       </dependency>
 
+      <dependency>
+        <groupId>be.sddevelopment.commons</groupId>
+        <artifactId>commons-kernel</artifactId>
+        <version>${code.utils.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>be.sddevelopment.commons</groupId>
+        <artifactId>commons</artifactId>
+        <version>${code.utils.version}</version>
+      </dependency>
+
       <!-- BEGIN TEST SCOPE -->
+      <dependency>
+        <groupId>be.sddevelopment.commons</groupId>
+        <artifactId>commons-testing</artifactId>
+        <scope>test</scope>
+        <version>1.0.0-SNAPSHOT</version>
+      </dependency>
       <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-api</artifactId>

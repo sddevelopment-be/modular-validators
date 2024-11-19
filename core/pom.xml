@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>be.sddevelopment</groupId>
+    <groupId>be.sddevelopment.validation</groupId>
     <artifactId>modular-validators</artifactId>
     <version>1.1.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
@@ -15,6 +15,22 @@
 
 
   <dependencies>
+    <dependency>
+      <groupId>be.sddevelopment.commons</groupId>
+      <artifactId>commons-kernel</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>be.sddevelopment.commons</groupId>
+      <artifactId>commons</artifactId>
+    </dependency>
+
+    <!-- BEGIN TEST SCOPE -->
+    <dependency>
+      <groupId>be.sddevelopment.commons</groupId>
+      <artifactId>commons-testing</artifactId>
+      <scope>test</scope>
+    </dependency>
+
     <!-- BEGIN TEST SCOPE -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>

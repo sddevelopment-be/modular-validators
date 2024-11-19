@@ -1,8 +1,10 @@
 package be.sddevelopment.validation.core;
 
+import be.sddevelopment.commons.testing.naming.ReplaceUnderscoredCamelCasing;
 import be.sddevelopment.validation.CheckedTestUtils;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.StringUtils;
 
@@ -14,6 +16,7 @@ import static be.sddevelopment.validation.core.Reason.failed;
 import static be.sddevelopment.validation.core.Reason.passed;
 
 @DisplayName("Constraints / Rules")
+@DisplayNameGeneration(ReplaceUnderscoredCamelCasing.class)
 class ConstraintTest implements WithAssertions {
 
     @Test
