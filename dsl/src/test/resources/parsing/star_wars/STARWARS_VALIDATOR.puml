@@ -1,5 +1,5 @@
 ValidatorFor(".*STARWARS.*\\.csv") {
-	Header{
+	Header {
 		Field('NAME')
 		Field('HEIGHT')
 		Field('MASS')
@@ -11,6 +11,7 @@ ValidatorFor(".*STARWARS.*\\.csv") {
 		Field('HOMEWORLD')
 		Field('SPECIES')
 	}
+
 	RecordIdentifier('NAME')
 	FieldPopulated('SPECIES')
 	FieldPopulated('HOMEWORLD')
