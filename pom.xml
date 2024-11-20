@@ -60,7 +60,7 @@
     <sonar.projectKey>sddevelopment_modular-validators</sonar.projectKey>
     <sonar.coverage.jacoco.xmlReportPaths>${jacoco.build.dir}/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 
-    <code.utils.version>1.0.0</code.utils.version>
+    <code.utils.version>1.0.1-SNAPSHOT</code.utils.version>
     <rewrite.version>5.36.0</rewrite.version>
   </properties>
   <dependencyManagement>
@@ -92,7 +92,7 @@
         <groupId>be.sddevelopment.commons</groupId>
         <artifactId>commons-testing</artifactId>
         <scope>test</scope>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>${code.utils.version}</version>
       </dependency>
       <dependency>
         <groupId>org.junit.jupiter</groupId>
@@ -357,4 +357,25 @@
       </plugin>
     </plugins>
   </reporting>
+
+  <repositories>
+    <repository>
+      <id>central</id>
+      <url>https://repo1.maven.org/maven2</url>
+    </repository>
+    <repository>
+      <id>github-utils</id>
+      <url>https://maven.pkg.github.com/sddevelopment-be/coding-utils</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>github-validators</id>
+      <url>https://maven.pkg.github.com/sddevelopment-be/modular-validators</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
 </project>

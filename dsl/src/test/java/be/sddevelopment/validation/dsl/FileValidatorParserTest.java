@@ -3,8 +3,6 @@ package be.sddevelopment.validation.dsl;
 import be.sddevelopment.commons.testing.naming.ReplaceUnderscoredCamelCasing;
 import be.sddevelopment.validation.core.ModularRuleset;
 import be.sddevelopment.validation.core.Rationale;
-import com.opencsv.CSVParser;
-import com.opencsv.bean.util.OpencsvUtils;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -16,12 +14,14 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.io.IOException;
 import java.nio.file.Paths;
 
+import static be.sddevelopment.validation.dsl.FileValidatorParser.toRuleAdder;
+
 @DisplayName("Parsing of validation rules")
 @DisplayNameGeneration(ReplaceUnderscoredCamelCasing.class)
 class FileValidatorParserTest implements WithAssertions {
 
     @Test
-    void createsAValidatorBasedOnSpecifications() throws IOException, SpecificationParserException {
+    void createsAValidatorBasedOnSpecifications() throws SpecificationParserException {
         var validationSpec = Paths.get("src/test/resources/parsing/star_wars/STARWARS_VALIDATOR.puml");
         var dataFile = Paths.get("src/test/resources/parsing/star_wars/STARWARS_INPUT_DATA.csv");
         assertThat(validationSpec).exists();
@@ -54,25 +54,53 @@ class FileValidatorParserTest implements WithAssertions {
         }
 
         @Test
-        void canCheckFieldExistence() {
+        void fieldExistenceCheckFailsIfHeaderIsNotPresent() throws IOException {
             var dataFile = CsvFile.fromLines(
                     """
-                    NAME,HEIGHT,SPECIES
-                    Luke Skywalker,172,Human
-                    C-3PO,167,Droid
-                    R2-D2,96,Droid
-                    Boba Fett,183, Human
-                    """.lines().toList()
+                            NAME,HEIGHT,SPECIES
+                            Luke Skywalker,172,Human
+                            C-3PO,167,Droid
+                            R2-D2,96,Droid
+                            Boba Fett,183, Human
+                            """.lines().toList()
             );
             var rule = "FieldExists('HOMEWORLD')";
-            var ruleAdder = FileValidatorParser.<CsvFile>toRuleAdder(rule);
+            var ruleAdder = toRuleAdder(rule);
 
             var ruleset = ModularRuleset.aValid(CsvFile.class);
             ruleAdder.apply(ruleset);
 
             var result = ruleset.iHaveSpoken().check(dataFile);
 
-            assertThat(result).isNotNull().matches(Rationale::isFailing, "fails because the field does not exist");
+            assertThat(result)
+                    .isNotNull()
+                    .matches(Rationale::isFailing, "fails because the field does not exist");
+            assertThat(result.details().getFirst().rationale())
+                    .contains("Field 'HOMEWORLD' must exist in the data file");
+        }
+
+        @Test
+        void fieldExistenceCheckPassesIfHeaderIsPresent() throws IOException {
+            var dataFile = CsvFile.fromLines(
+                    """
+                            NAME,HEIGHT,SPECIES
+                            Luke Skywalker,172,Human
+                            C-3PO,167,Droid
+                            R2-D2,96,Droid
+                            Boba Fett,183, Human
+                            """.lines().toList()
+            );
+            var rule = "FieldExists('SPECIES')";
+            var ruleAdder = toRuleAdder(rule);
+
+            var ruleset = ModularRuleset.aValid(CsvFile.class);
+            ruleAdder.apply(ruleset);
+
+            var result = ruleset.iHaveSpoken().check(dataFile);
+
+            assertThat(result).isNotNull().matches(Rationale::isPassing);
+            assertThat(result.details().getFirst().rationale())
+                    .contains("Field 'SPECIES' must exist in the data file");
         }
     }
 }

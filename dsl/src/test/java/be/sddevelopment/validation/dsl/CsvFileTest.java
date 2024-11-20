@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.List;
 
 @DisplayName("Comma Separated Values File")
@@ -17,7 +18,7 @@ class CsvFileTest implements WithAssertions {
     class LineBasedParsing {
 
         @Test
-        void dataIsAccessibleAfterParsing() {
+        void dataIsAccessibleAfterParsing() throws IOException {
             var dataWithHeader = """
             NAME,HEIGHT,SPECIES
             Luke Skywalker,172,Human
@@ -44,7 +45,7 @@ class CsvFileTest implements WithAssertions {
         }
 
         @Test
-        void canHandleEmptyDataSets() {
+        void canHandleEmptyDataSets() throws IOException {
             var headerOnly = List.of("NAME,HEIGHT,SPECIES");
 
             var csvFile = CsvFile.fromLines(headerOnly);

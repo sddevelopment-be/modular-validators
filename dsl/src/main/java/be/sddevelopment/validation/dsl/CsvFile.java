@@ -1,15 +1,19 @@
 package be.sddevelopment.validation.dsl;
 
+import be.sddevelopment.commons.exceptions.ExceptionSuppressor;
+import com.opencsv.CSVParser;
+import com.opencsv.CSVParserBuilder;
+
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Vector;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public record CsvFile (
-    String fileIdentifier,
-    Vector<String> headerFields,
-    Vector<Vector<String>> lines
+public record CsvFile(
+        String fileIdentifier,
+        Vector<String> headerFields,
+        Vector<Vector<String>> lines
 ) {
     private static final String DEFAULT = ".*\\.csv";
 
@@ -23,22 +27,34 @@ public record CsvFile (
         return lines.get(lineNumber);
     }
 
-    public static CsvFile fromLines(List<String> lines) {
-        if(lines.isEmpty()) {
+    public static CsvFile fromLines(List<String> lines) throws IOException {
+        if (lines.isEmpty()) {
             throw new IllegalArgumentException("No lines provided. A data file requires at least one line");
         }
 
         var header = parseHeader(lines.getFirst());
-        var dataLines = lines.stream().skip(1).map(CsvFile::parseLine).toList();
+
+        var dataLines = lines.stream().skip(1).map(ExceptionSuppressor.uncheck(CsvFile::parseLine)).toList();
         return new CsvFile(DEFAULT, header, new Vector<>(dataLines));
     }
 
-    private static Vector<String> parseHeader(String s) {
-        return null;
+    private static Vector<String> parseHeader(String lineToParse) throws IOException {
+        List<String> parsedFields = Stream.of(createParser().parseLine(lineToParse))
+                .map(String::trim)
+                .toList();
+        return new Vector<>(parsedFields);
     }
 
-    private static Vector<String> parseLine(String s) {
-        return null;
+    private static Vector<String> parseLine(String lineToParse) throws IOException {
+        return new Vector<>(Stream.of(createParser().parseLine(lineToParse)).map(String::trim).toList());
+    }
+
+    private static CSVParser createParser() {
+        return new CSVParserBuilder()
+                .withSeparator(',')
+                .withEscapeChar('\\')
+                .withQuoteChar('"')
+                .build();
     }
 
     public static CsvFile fromFile(Path dataFile) {

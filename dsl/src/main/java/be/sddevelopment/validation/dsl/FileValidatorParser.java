@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 import static be.sddevelopment.commons.access.AccessProtectionUtils.utilityClassConstructor;
@@ -46,7 +47,16 @@ public final class FileValidatorParser {
         return KNOWN_RULESPECS.stream().anyMatch(specificationLine::contains);
     }
 
-    static <T> Function<ModularValidatorBuilder<T>, ModularValidatorBuilder<T>> toRuleAdder(String line) {
+    static Function<ModularValidatorBuilder<CsvFile>, ModularValidatorBuilder<CsvFile>> toRuleAdder(String line) {
+        if(line.trim().startsWith("FieldExists")) {
+            var field = line.substring(line.indexOf('(') + 1, line.indexOf(')'))
+                    .trim()
+                    .replace("'", "");
+            return ruleset -> ruleset.must(
+                    file -> file.headerFields().contains(field),
+                    "Field '%s' must exist in the data file".formatted(field)
+            );
+        }
         return ruleset -> ruleset;
     }
 }

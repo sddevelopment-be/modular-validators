@@ -37,10 +37,6 @@
     </dependency>
     <dependency>
       <groupId>be.sddevelopment.commons</groupId>
-      <artifactId>commons-kernel</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>be.sddevelopment.commons</groupId>
       <artifactId>commons</artifactId>
     </dependency>
 
