@@ -62,7 +62,7 @@ class FileValidatorParserTest implements WithAssertions {
                     C-3PO,167,Droid
                     R2-D2,96,Droid
                     Boba Fett,183, Human
-                    """.lines()
+                    """.lines().toList()
             );
             var rule = "FieldExists('HOMEWORLD')";
             var ruleAdder = FileValidatorParser.<CsvFile>toRuleAdder(rule);

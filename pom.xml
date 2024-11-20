@@ -60,7 +60,7 @@
     <sonar.projectKey>sddevelopment_modular-validators</sonar.projectKey>
     <sonar.coverage.jacoco.xmlReportPaths>${jacoco.build.dir}/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 
-    <code.utils.version>1.0.0-SNAPSHOT</code.utils.version>
+    <code.utils.version>1.0.0</code.utils.version>
     <rewrite.version>5.36.0</rewrite.version>
   </properties>
   <dependencyManagement>
