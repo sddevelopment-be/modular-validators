@@ -8,6 +8,7 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.io.IOException;
 import java.nio.file.Paths;
 
 import static java.nio.file.Files.readAllLines;
@@ -17,7 +18,7 @@ import static java.nio.file.Files.readAllLines;
 class CsvFileSpecificationParserTest implements WithAssertions {
 
     @Test
-    void createsAValidatorBasedOnSpecifications() throws SpecificationParserException {
+    void createsAValidatorBasedOnSpecifications() throws SpecificationParserException, IOException {
         var validationSpec = Paths.get("src/test/resources/parsing/star_wars/STARWARS_VALIDATOR.puml");
         var dataFile = Paths.get("src/test/resources/parsing/star_wars/STARWARS_INPUT_DATA.csv");
         assertThat(validationSpec).exists().isRegularFile();

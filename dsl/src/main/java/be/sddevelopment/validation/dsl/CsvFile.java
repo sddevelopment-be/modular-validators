@@ -5,11 +5,17 @@ import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import org.jspecify.annotations.Nullable;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 import java.util.Vector;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
+
+import static java.nio.file.Files.readAllLines;
 
 /**
  * Represents a CSV file with a header and data lines, to be used as an input for a {@link be.sddevelopment.validation.core.ModularRuleset}.
@@ -30,6 +36,17 @@ public record CsvFile(
         if (headerFields == null || lines == null) {
             throw new IllegalArgumentException("Header fields and lines must not be null");
         }
+    }
+
+    public Optional<Vector<String>> findLineByFieldValue(String field, String value) {
+        return lines()
+                .parallelStream()
+                .filter(line -> line.get(fieldIndex(field)).equals(value))
+                .findFirst();
+    }
+
+    public int fieldIndex(String fieldName) {
+        return headerFields().indexOf(fieldName);
     }
 
     public Vector<String> line(int lineNumber) {
@@ -66,11 +83,15 @@ public record CsvFile(
                 .build();
     }
 
-    public static @Nullable CsvFile fromFile(Path dataFile) {
-        return null;
+    public static @Nullable CsvFile fromFile(Path dataFile) throws IOException {
+        return CsvFile.fromLines(readAllLines(dataFile));
     }
 
     public boolean isEmpty() {
         return this.lines.isEmpty();
+    }
+
+    public boolean isNotEmpty() {
+        return !this.isEmpty();
     }
 }
