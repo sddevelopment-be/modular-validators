@@ -1,0 +1,22 @@
+--class-path
+'/home/stijn/Documents/_code/_projects/modular-validators/target/classes:/home/stijn/Documents/_code/_projects/modular-validators/core/target/classes:/home/stijn/Documents/_code/_projects/modular-validators/dsl/target/classes:/home/stijn/.m2/repository/be/sddevelopment/commons/commons-kernel/1.0.1/commons-kernel-1.0.1.jar:/home/stijn/.m2/repository/be/sddevelopment/commons/commons/1.0.1/commons-1.0.1.jar:/home/stijn/.m2/repository/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar:/home/stijn/.m2/repository/org/slf4j/slf4j-api/2.0.12/slf4j-api-2.0.12.jar:/home/stijn/.m2/repository/com/google/guava/guava/33.3.0-jre/guava-33.3.0-jre.jar:/home/stijn/.m2/repository/com/google/guava/failureaccess/1.0.2/failureaccess-1.0.2.jar:/home/stijn/.m2/repository/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar:/home/stijn/.m2/repository/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar:/home/stijn/.m2/repository/org/checkerframework/checker-qual/3.43.0/checker-qual-3.43.0.jar:/home/stijn/.m2/repository/com/google/errorprone/error_prone_annotations/2.28.0/error_prone_annotations-2.28.0.jar:/home/stijn/.m2/repository/com/google/j2objc/j2objc-annotations/3.0.0/j2objc-annotations-3.0.0.jar:/home/stijn/.m2/repository/org/apache/commons/commons-lang3/3.14.0/commons-lang3-3.14.0.jar:/home/stijn/.m2/repository/org/apache/logging/log4j/log4j-slf4j2-impl/2.24.0/log4j-slf4j2-impl-2.24.0.jar:/home/stijn/.m2/repository/org/apache/logging/log4j/log4j-api/2.24.0/log4j-api-2.24.0.jar:/home/stijn/.m2/repository/com/opencsv/opencsv/5.9/opencsv-5.9.jar:/home/stijn/.m2/repository/org/apache/commons/commons-text/1.11.0/commons-text-1.11.0.jar:/home/stijn/.m2/repository/commons-beanutils/commons-beanutils/1.9.4/commons-beanutils-1.9.4.jar:/home/stijn/.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar:/home/stijn/.m2/repository/commons-collections/commons-collections/3.2.2/commons-collections-3.2.2.jar:/home/stijn/.m2/repository/org/apache/commons/commons-collections4/4.4/commons-collections4-4.4.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/home/stijn/Documents/_code/_projects/modular-validators/core/src/main/java:/home/stijn/Documents/_code/_projects/modular-validators/core/target/generated-sources/annotations:/home/stijn/Documents/_code/_projects/modular-validators/core/src/main/javadoc:/home/stijn/Documents/_code/_projects/modular-validators/dsl/src/main/java:/home/stijn/Documents/_code/_projects/modular-validators/dsl/target/generated-sources/annotations'
+-author
+-bottom
+'Copyright &#169; 2024 <a href="https://www.sddevelopment.be">SD Development</a>. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'/home/stijn/Documents/_code/_projects/modular-validators/docs/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'modular-validators 1.1.0-SNAPSHOT API'
+-use
+-version
+-windowtitle
+'modular-validators 1.1.0-SNAPSHOT API'

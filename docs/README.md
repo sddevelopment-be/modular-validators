@@ -50,7 +50,8 @@ forgotten.
 
 ## References
 
-* Gorts, S (2023) Better validation rules with Validation Results. self-published on LinkedIn. [link](https://www.linkedin.com/feed/update/urn:li:activity:7139998913746329600/).
+* Dejongh, S (2024) Fail Fast, Formulate Feedback!. [patterns.sddevelopment.be](https://patterns.sddevelopment.be/practices/336b0448-e78b-4428-83a5-d4d473afda63)
+* Gorts, S (2023) Better validation rules with Validation Results. self-published on LinkedIn. [link](https://patterns.sddevelopment.be/attachments/GORTS_Better-Validation-Rules.pdf).
 
 ## Contributing
 

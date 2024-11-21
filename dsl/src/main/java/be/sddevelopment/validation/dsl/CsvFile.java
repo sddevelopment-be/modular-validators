@@ -10,6 +10,14 @@ import java.util.List;
 import java.util.Vector;
 import java.util.stream.Stream;
 
+/**
+ * Represents a CSV file with a header and data lines, to be used as an input for a {@link be.sddevelopment.validation.core.ModularRuleset}.
+ *
+ * @param fileIdentifier a regular expression, used to identify the file in the validation report.
+ * @param headerFields   the header fields of the CSV file.
+ * @param lines          the data lines of the CSV file.
+ *
+ */
 public record CsvFile(
         String fileIdentifier,
         Vector<String> headerFields,

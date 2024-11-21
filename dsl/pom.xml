@@ -14,14 +14,19 @@
   <artifactId>dsl</artifactId>
 
   <description>
-    A Domain Specific Language (DSL) to define validation rules, using a PlantUML like syntax to enable easy
-    visualisation of the ruleset.
+    A Domain Specific Language (DSL) to define validation rules, using a PlantUML-inspired syntax, enabling
+    visualization of rulesets. The DSL can be parsed to create a ModularValidators ruleset, and used to validate
+    adherence of objects.
   </description>
+
+  <url>https://github.com/sddevelopment-be/modular-validators</url>
 
   <properties>
     <maven.compiler.source>21</maven.compiler.source>
     <maven.compiler.target>21</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <sonar.projectKey>sddevelopment-be_coding-utils:${project.artifactId}</sonar.projectKey>
   </properties>
 
   <dependencies>

@@ -16,10 +16,20 @@
     an object.
   </description>
 
+  <url>https://github.com/sddevelopment-be/modular-validators</url>
+
   <organization>
     <name>SD Development</name>
     <url>https://www.sddevelopment.be</url>
   </organization>
+
+  <licenses>
+    <license>
+      <name>EUPL v.1.2</name>
+      <url>https://github.com/sddevelopment-be/modular-validators/blob/main/LICENSE</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
 
   <developers>
     <developer>
@@ -36,6 +46,12 @@
     <module>core</module>
     <module>dsl</module>
   </modules>
+
+  <scm>
+    <connection>scm:git:ssh://git@github.com/sddevelopment-be/modular-validators.git</connection>
+    <url>${project.url}</url>
+    <tag>HEAD</tag>
+  </scm>
 
   <distributionManagement>
     <repository>
@@ -60,9 +76,10 @@
     <sonar.projectKey>sddevelopment_modular-validators</sonar.projectKey>
     <sonar.coverage.jacoco.xmlReportPaths>${jacoco.build.dir}/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 
-    <code.utils.version>1.0.1-SNAPSHOT</code.utils.version>
+    <code.utils.version>1.0.1</code.utils.version>
     <rewrite.version>5.36.0</rewrite.version>
   </properties>
+
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -211,13 +228,6 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>3.5.0</version>
-        <configuration>
-          <stylesheet>maven</stylesheet>
-          <javadocDirectory>core/src/main/javadoc</javadocDirectory>
-          <addStylesheets>
-            <resources>/styles/stylesheet.css</resources>
-          </addStylesheets>
-        </configuration>
       </plugin>
 
       <plugin>
@@ -255,11 +265,6 @@
             </configuration>
           </execution>
         </executions>
-        <configuration>
-          <excludes>
-            <exclude>be/sddevelopment/**/*TestUtils*/</exclude>
-          </excludes>
-        </configuration>
       </plugin>
 
       <plugin>
@@ -332,12 +337,9 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>3.5.0</version>
         <configuration>
+          <reportOutputDirectory>docs/javadoc</reportOutputDirectory>
+          <destDir>javadoc</destDir>
           <stylesheet>maven</stylesheet>
-          <javadocDirectory>core/src/main/javadoc</javadocDirectory>
-          <addStylesheets>
-            <resources>${project.basedir}/javadoc/stylesheet.css</resources>
-          </addStylesheets>
-          <encoding>${encoding}</encoding>
         </configuration>
         <reportSets>
           <reportSet>
@@ -358,24 +360,63 @@
     </plugins>
   </reporting>
 
-  <repositories>
-    <repository>
-      <id>central</id>
-      <url>https://repo1.maven.org/maven2</url>
-    </repository>
-    <repository>
-      <id>github-utils</id>
-      <url>https://maven.pkg.github.com/sddevelopment-be/coding-utils</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>github-validators</id>
-      <url>https://maven.pkg.github.com/sddevelopment-be/modular-validators</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
+  <profiles>
+    <profile>
+      <id>publisher</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>3.2.7</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>3.6.3</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>3.3.1</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+            <version>0.6.0</version>
+            <extensions>true</extensions>
+            <configuration>
+              <autoPublish>false</autoPublish>
+              <deploymentName>${project.artifactId}:${project.version}</deploymentName>
+              <waitUntil>validated</waitUntil>
+              <publishingServerId>ossrh</publishingServerId>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
