@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bom xmlns="http://cyclonedx.org/schema/bom/1.6" version="1.1.0-SNAPSHOT">
+  <metadata>
+    <tools>
+      <tool>
+        <vendor>OpenRewrite by Moderne</vendor>
+        <name>OpenRewrite CycloneDX</name>
+        <version>8.32.0</version>
+      </tool>
+    </tools>
+    <component bom-ref="pkg:maven/be.sddevelopment.validation/modular-validators@1.1.0-SNAPSHOT">
+      <group>be.sddevelopment.validation</group>
+      <name>modular-validators</name>
+      <version>1.1.0-SNAPSHOT</version>
+      <purl>pkg:maven/be.sddevelopment.validation/modular-validators@1.1.0-SNAPSHOT</purl>
+    </component>
+  </metadata>
+  <components>
+    <component bom-ref="pkg:maven/org.jspecify/jspecify@1.0.0">
+      <group>org.jspecify</group>
+      <name>jspecify</name>
+      <version>1.0.0</version>
+      <scope>required</scope>
+      <licenses>
+        <license>
+          <name>The Apache License, Version 2.0</name>
+        </license>
+      </licenses>
+      <purl>pkg:maven/org.jspecify/jspecify@1.0.0</purl>
+    </component>
+  </components>
+  <dependencies>
+    <dependency ref="pkg:maven/org.jspecify/jspecify@1.0.0"/>
+  </dependencies>
+</bom>
+

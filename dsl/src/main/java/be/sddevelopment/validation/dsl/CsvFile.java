@@ -3,6 +3,7 @@ package be.sddevelopment.validation.dsl;
 import be.sddevelopment.commons.exceptions.ExceptionSuppressor;
 import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
+import org.jspecify.annotations.Nullable;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -65,7 +66,7 @@ public record CsvFile(
                 .build();
     }
 
-    public static CsvFile fromFile(Path dataFile) {
+    public static @Nullable CsvFile fromFile(Path dataFile) {
         return null;
     }
 

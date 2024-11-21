@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bom xmlns="http://cyclonedx.org/schema/bom/1.6" version="1.1.0-SNAPSHOT">
+  <metadata>
+    <tools>
+      <tool>
+        <vendor>OpenRewrite by Moderne</vendor>
+        <name>OpenRewrite CycloneDX</name>
+        <version>8.32.0</version>
+      </tool>
+    </tools>
+    <component bom-ref="pkg:maven/be.sddevelopment.validation/core@1.1.0-SNAPSHOT">
+      <group>be.sddevelopment.validation</group>
+      <name>core</name>
+      <version>1.1.0-SNAPSHOT</version>
+      <purl>pkg:maven/be.sddevelopment.validation/core@1.1.0-SNAPSHOT</purl>
+    </component>
+  </metadata>
+  <components>
+    <component bom-ref="pkg:maven/be.sddevelopment.commons/commons-kernel@1.0.1">
+      <group>be.sddevelopment.commons</group>
+      <name>commons-kernel</name>
+      <version>1.0.1</version>
+      <scope>required</scope>
+      <licenses/>
+      <purl>pkg:maven/be.sddevelopment.commons/commons-kernel@1.0.1</purl>
+    </component>
+    <component bom-ref="pkg:maven/be.sddevelopment.commons/commons@1.0.1">
+      <group>be.sddevelopment.commons</group>
+      <name>commons</name>
+      <version>1.0.1</version>
+      <scope>required</scope>
+      <licenses/>
+      <purl>pkg:maven/be.sddevelopment.commons/commons@1.0.1</purl>
+    </component>
+    <component bom-ref="pkg:maven/com.google.guava/guava@33.3.0-jre">
+      <group>com.google.guava</group>
+      <name>guava</name>
+      <version>33.3.0-jre</version>
+      <scope>required</scope>
+      <licenses/>
+      <purl>pkg:maven/com.google.guava/guava@33.3.0-jre</purl>
+    </component>
+    <component bom-ref="pkg:maven/org.apache.commons/commons-lang3@3.14.0">
+      <group>org.apache.commons</group>
+      <name>commons-lang3</name>
+      <version>3.14.0</version>
+      <scope>required</scope>
+      <licenses/>
+      <purl>pkg:maven/org.apache.commons/commons-lang3@3.14.0</purl>
+    </component>
+    <component bom-ref="pkg:maven/org.apache.logging.log4j/log4j-slf4j2-impl@2.24.0">
+      <group>org.apache.logging.log4j</group>
+      <name>log4j-slf4j2-impl</name>
+      <version>2.24.0</version>
+      <scope>required</scope>
+      <licenses>
+        <license>
+          <name>Apache-2.0</name>
+        </license>
+      </licenses>
+      <purl>pkg:maven/org.apache.logging.log4j/log4j-slf4j2-impl@2.24.0</purl>
+    </component>
+    <component bom-ref="pkg:maven/org.jspecify/jspecify@1.0.0">
+      <group>org.jspecify</group>
+      <name>jspecify</name>
+      <version>1.0.0</version>
+      <scope>required</scope>
+      <licenses>
+        <license>
+          <name>The Apache License, Version 2.0</name>
+        </license>
+      </licenses>
+      <purl>pkg:maven/org.jspecify/jspecify@1.0.0</purl>
+    </component>
+    <component bom-ref="pkg:maven/org.projectlombok/lombok@1.18.32">
+      <group>org.projectlombok</group>
+      <name>lombok</name>
+      <version>1.18.32</version>
+      <scope>required</scope>
+      <licenses>
+        <license>
+          <name>The MIT License</name>
+        </license>
+      </licenses>
+      <purl>pkg:maven/org.projectlombok/lombok@1.18.32</purl>
+    </component>
+    <component bom-ref="pkg:maven/com.google.guava/failureaccess@1.0.2">
+      <group>com.google.guava</group>
+      <name>failureaccess</name>
+      <version>1.0.2</version>
+      <scope>required</scope>
+      <licenses/>
+      <purl>pkg:maven/com.google.guava/failureaccess@1.0.2</purl>
+    </component>
+    <component bom-ref="pkg:maven/com.google.guava/listenablefuture@9999.0-empty-to-avoid-conflict-with-guava">
+      <group>com.google.guava</group>
+      <name>listenablefuture</name>
+      <version>9999.0-empty-to-avoid-conflict-with-guava</version>
+      <scope>required</scope>
+      <licenses/>
+      <purl>pkg:maven/com.google.guava/listenablefuture@9999.0-empty-to-avoid-conflict-with-guava</purl>
+    </component>
+    <component bom-ref="pkg:maven/com.google.code.findbugs/jsr305@3.0.2">
+      <group>com.google.code.findbugs</group>
+      <name>jsr305</name>
+      <version>3.0.2</version>
+      <scope>required</scope>
+      <licenses>
+        <license>
+          <name>The Apache Software License, Version 2.0</name>
+        </license>
+      </licenses>
+      <purl>pkg:maven/com.google.code.findbugs/jsr305@3.0.2</purl>
+    </component>
+    <component bom-ref="pkg:maven/org.checkerframework/checker-qual@3.43.0">
+      <group>org.checkerframework</group>
+      <name>checker-qual</name>
+      <version>3.43.0</version>
+      <scope>required</scope>
+      <licenses>
+        <license>
+          <name>The MIT License</name>
+        </license>
+      </licenses>
+      <purl>pkg:maven/org.checkerframework/checker-qual@3.43.0</purl>
+    </component>
+    <component bom-ref="pkg:maven/com.google.errorprone/error_prone_annotations@2.28.0">
+      <group>com.google.errorprone</group>
+      <name>error_prone_annotations</name>
+      <version>2.28.0</version>
+      <scope>required</scope>
+      <licenses>
+        <license>
+          <name>Apache 2.0</name>
+        </license>
+      </licenses>
+      <purl>pkg:maven/com.google.errorprone/error_prone_annotations@2.28.0</purl>
+    </component>
+    <component bom-ref="pkg:maven/com.google.j2objc/j2objc-annotations@3.0.0">
+      <group>com.google.j2objc</group>
+      <name>j2objc-annotations</name>
+      <version>3.0.0</version>
+      <scope>required</scope>
+      <licenses>
+        <license>
+          <name>Apache License, Version 2.0</name>
+        </license>
+      </licenses>
+      <purl>pkg:maven/com.google.j2objc/j2objc-annotations@3.0.0</purl>
+    </component>
+    <component bom-ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.24.0">
+      <group>org.apache.logging.log4j</group>
+      <name>log4j-api</name>
+      <version>2.24.0</version>
+      <scope>required</scope>
+      <licenses>
+        <license>
+          <name>Apache-2.0</name>
+        </license>
+      </licenses>
+      <purl>pkg:maven/org.apache.logging.log4j/log4j-api@2.24.0</purl>
+    </component>
+    <component bom-ref="pkg:maven/org.slf4j/slf4j-api@2.0.16">
+      <group>org.slf4j</group>
+      <name>slf4j-api</name>
+      <version>2.0.16</version>
+      <scope>required</scope>
+      <licenses/>
+      <purl>pkg:maven/org.slf4j/slf4j-api@2.0.16</purl>
+    </component>
+    <component bom-ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.24.0">
+      <group>org.apache.logging.log4j</group>
+      <name>log4j-core</name>
+      <version>2.24.0</version>
+      <scope>required</scope>
+      <licenses>
+        <license>
+          <name>Apache-2.0</name>
+        </license>
+      </licenses>
+      <purl>pkg:maven/org.apache.logging.log4j/log4j-core@2.24.0</purl>
+    </component>
+  </components>
+  <dependencies>
+    <dependency ref="pkg:maven/be.sddevelopment.commons/commons-kernel@1.0.1"/>
+    <dependency ref="pkg:maven/be.sddevelopment.commons/commons@1.0.1">
+      <dependency ref="pkg:maven/org.projectlombok/lombok@1.18.32"/>
+    </dependency>
+    <dependency ref="pkg:maven/com.google.guava/guava@33.3.0-jre">
+      <dependency ref="pkg:maven/com.google.guava/failureaccess@1.0.2"/>
+      <dependency ref="pkg:maven/com.google.guava/listenablefuture@9999.0-empty-to-avoid-conflict-with-guava"/>
+      <dependency ref="pkg:maven/com.google.code.findbugs/jsr305@3.0.2"/>
+      <dependency ref="pkg:maven/org.checkerframework/checker-qual@3.43.0"/>
+      <dependency ref="pkg:maven/com.google.errorprone/error_prone_annotations@2.28.0"/>
+      <dependency ref="pkg:maven/com.google.j2objc/j2objc-annotations@3.0.0"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.apache.commons/commons-lang3@3.14.0"/>
+    <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-slf4j2-impl@2.24.0">
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.24.0"/>
+      <dependency ref="pkg:maven/org.slf4j/slf4j-api@2.0.16"/>
+      <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.24.0"/>
+    </dependency>
+    <dependency ref="pkg:maven/org.jspecify/jspecify@1.0.0"/>
+    <dependency ref="pkg:maven/org.projectlombok/lombok@1.18.32"/>
+    <dependency ref="pkg:maven/com.google.guava/failureaccess@1.0.2"/>
+    <dependency ref="pkg:maven/com.google.guava/listenablefuture@9999.0-empty-to-avoid-conflict-with-guava"/>
+    <dependency ref="pkg:maven/com.google.code.findbugs/jsr305@3.0.2"/>
+    <dependency ref="pkg:maven/org.checkerframework/checker-qual@3.43.0"/>
+    <dependency ref="pkg:maven/com.google.errorprone/error_prone_annotations@2.28.0"/>
+    <dependency ref="pkg:maven/com.google.j2objc/j2objc-annotations@3.0.0"/>
+    <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-api@2.24.0"/>
+    <dependency ref="pkg:maven/org.slf4j/slf4j-api@2.0.16"/>
+    <dependency ref="pkg:maven/org.apache.logging.log4j/log4j-core@2.24.0"/>
+  </dependencies>
+</bom>
+

@@ -20,12 +20,12 @@ class CsvFileTest implements WithAssertions {
         @Test
         void dataIsAccessibleAfterParsing() throws IOException {
             var dataWithHeader = """
-            NAME,HEIGHT,SPECIES
-            Luke Skywalker,172,Human
-            C-3PO,167,Droid
-            R2-D2,96,Droid
-            Boba Fett,183, Human
-        """;
+                        NAME,HEIGHT,SPECIES
+                        Luke Skywalker,172,Human
+                        C-3PO,167,Droid
+                        R2-D2,96,Droid
+                        Boba Fett,183, Human
+                    """;
 
             var csvFile = CsvFile.fromLines(dataWithHeader.lines().toList());
 

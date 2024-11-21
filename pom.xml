@@ -77,7 +77,7 @@
     <sonar.coverage.jacoco.xmlReportPaths>${jacoco.build.dir}/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 
     <code.utils.version>1.0.1</code.utils.version>
-    <rewrite.version>5.36.0</rewrite.version>
+    <rewrite.version>5.45.0</rewrite.version>
   </properties>
 
   <dependencyManagement>
@@ -93,6 +93,11 @@
         <version>${version}</version>
       </dependency>
 
+      <dependency>
+        <groupId>org.jspecify</groupId>
+        <artifactId>jspecify</artifactId>
+        <version>1.0.0</version>
+      </dependency>
       <dependency>
         <groupId>be.sddevelopment.commons</groupId>
         <artifactId>commons-kernel</artifactId>
@@ -191,6 +196,13 @@
     </dependencies>
   </dependencyManagement>
 
+  <dependencies>
+    <dependency>
+      <groupId>org.jspecify</groupId>
+      <artifactId>jspecify</artifactId>
+    </dependency>
+  </dependencies>
+
   <pluginRepositories>
     <pluginRepository>
       <id>ossrh-snapshots</id>
@@ -274,7 +286,14 @@
         <configuration>
           <exportDatatables>true</exportDatatables>
           <activeRecipes>
+            <recipe>org.openrewrite.maven.OrderPomElements</recipe>
+            <recipe>org.openrewrite.java.OrderImports</recipe>
+            <recipe>org.openrewrite.java.RemoveUnusedImports</recipe>
             <recipe>org.openrewrite.java.testing.junit5.JUnit5BestPractices</recipe>
+            <recipe>org.openrewrite.java.testing.assertj.Assertj</recipe>
+            <recipe>org.openrewrite.java.dependencies.RemoveExpiredSuppressions</recipe>
+            <recipe>org.openrewrite.java.dependencies.DependencyVulnerabilityCheck</recipe>
+            <recipe>org.openrewrite.java.dependencies.SoftwareBillOfMaterials</recipe>
             <recipe>org.openrewrite.github.PreferTemurinDistributions</recipe>
             <recipe>org.openrewrite.staticanalysis.AnnotateNullableMethods</recipe>
             <recipe>org.openrewrite.staticanalysis.ChainStringBuilderAppendCalls</recipe>
@@ -291,13 +310,15 @@
             <recipe>org.openrewrite.staticanalysis.RenameLocalVariablesToCamelCase</recipe>
             <recipe>org.openrewrite.staticanalysis.SimplifyTernaryRecipes</recipe>
             <recipe>org.openrewrite.staticanalysis.UseSystemLineSeparator</recipe>
-            <recipe>org.openrewrite.java.dependencies.DependencyVulnerabilityCheck</recipe>
             <recipe>org.openrewrite.recommendations.CodeStyle</recipe>
-            <recipe>org.openrewrite.recommendations.DependencyManagement</recipe>
-            <recipe>org.openrewrite.maven.OrderPomElements</recipe>
           </activeRecipes>
         </configuration>
         <dependencies>
+          <dependency>
+            <groupId>org.openrewrite</groupId>
+            <artifactId>rewrite-java</artifactId>
+            <version>8.40.2</version>
+          </dependency>
           <dependency>
             <groupId>org.openrewrite.recipe</groupId>
             <artifactId>rewrite-java-dependencies</artifactId>
