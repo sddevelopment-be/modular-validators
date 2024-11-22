@@ -2,7 +2,6 @@ package be.sddevelopment.validation.dsl;
 
 import be.sddevelopment.commons.testing.naming.ReplaceUnderscoredCamelCasing;
 import be.sddevelopment.validation.core.Rationale;
-import be.sddevelopment.validation.dsl.rules.CsvValidationRules;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -14,6 +13,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.io.IOException;
 import java.nio.file.Paths;
 
+import static be.sddevelopment.validation.dsl.rules.CsvValidationRules.defaultRules;
 import static java.nio.file.Files.readAllLines;
 
 @DisplayName("Parsing of validation rules")
@@ -60,7 +60,7 @@ class CsvFileSpecificationParserTest implements WithAssertions {
         })
         void recognizesSimpleRule(String ruleToParse) {
             assertThat(ruleToParse).matches(
-                    CsvValidationRules::isKnownSpecification,
+                    defaultRules()::isKnownSpecification,
                     "is recognized as a rule specification"
             );
         }

@@ -27,7 +27,7 @@ public record CsvRuleSpec(
         String[] rawParameters = line.substring(line.indexOf('(') + 1, line.indexOf(')'))
                 .trim()
                 .replace("'", "")
-                .split(CsvValidationRules.PARAMETER_SEPARATOR);
+                .split(CsvValidationRules.DEFAULT_PARAMETER_SEPARATOR);
         return Stream.of(rawParameters).map(String::trim).toList();
     }
 }

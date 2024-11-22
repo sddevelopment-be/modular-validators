@@ -1,6 +1,5 @@
 package be.sddevelopment.validation.dsl.rules;
 
-import be.sddevelopment.commons.annotations.Utility;
 import be.sddevelopment.validation.core.Constraint;
 import be.sddevelopment.validation.core.ModularRuleset.ModularValidatorBuilder;
 import be.sddevelopment.validation.dsl.CsvFile;
@@ -12,32 +11,48 @@ import java.util.Optional;
 import java.util.Vector;
 import java.util.function.Function;
 
-import static be.sddevelopment.commons.access.AccessProtectionUtils.utilityClassConstructor;
 import static be.sddevelopment.commons.exceptions.ExceptionSuppressor.ignore;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.joining;
 
-@Utility
 public final class CsvValidationRules {
 
-    public static final String PARAMETER_SEPARATOR = ",";
-    private static final List<CsvRuleSpec> KNOWN_RULESPECS = List.of(
+    public static final String DEFAULT_PARAMETER_SEPARATOR = ",";
+    private static final List<CsvRuleSpec> BASE_RULE_SPECIFICATIONS = List.of(
             new CsvRuleSpec("Field", CsvValidationRules::createFieldExistsRule),
+            new CsvRuleSpec("Distinct", CsvValidationRules::createFieldDistinctnessRule),
+            new CsvRuleSpec("Unique", CsvValidationRules::createFieldDistinctnessRule),
             new CsvRuleSpec("UniqueField", CsvValidationRules::createFieldDistinctnessRule),
             new CsvRuleSpec("RecordExists", ignore(CsvValidationRules::containsRecord))
     );
+    private static final CsvValidationRules DEFAULT_RULES = new CsvValidationRules(BASE_RULE_SPECIFICATIONS);
 
-    private CsvValidationRules() {
-        utilityClassConstructor();
+    private Vector<CsvRuleSpec> knownRuleSpecifications;
+
+    public CsvValidationRules(List<CsvRuleSpec> knownRuleSpecifications) {
+        this.knownRuleSpecifications = new Vector<>(knownRuleSpecifications);
     }
 
-    public static Function<ModularValidatorBuilder<CsvFile>, ModularValidatorBuilder<CsvFile>> fromLine(String line)
+    public Function<ModularValidatorBuilder<CsvFile>, ModularValidatorBuilder<CsvFile>> fromLine(String line)
             throws SpecificationParserException {
-        return knownRuleSpecifications().stream()
+        return knownRuleSpecifications()
+                .stream().parallel()
                 .map(spec -> spec.toRule(line.trim()))
                 .flatMap(Optional::stream)
                 .findFirst()
                 .orElseThrow(() -> new SpecificationParserException("Unknown rule specification: %s".formatted(line)));
+    }
+
+    public List<CsvRuleSpec> knownRuleSpecifications() {
+        return knownRuleSpecifications;
+    }
+
+    public boolean isKnownSpecification(String specificationLine) {
+        return knownRuleSpecifications().stream().anyMatch(spec -> spec.accepts(specificationLine.trim()));
+    }
+
+    public ModularValidatorBuilder<CsvFile> addToRuleset(ModularValidatorBuilder<CsvFile> ruleSet, String ruleToAdd) throws SpecificationParserException {
+        return fromLine(ruleToAdd).apply(ruleSet);
     }
 
     public static RuleSpecificationAppender<CsvFile> createFieldExistsRule(String line) {
@@ -80,7 +95,7 @@ public final class CsvValidationRules {
         return new Constraint<>(
                 file -> identifiedBy(identifier).apply(file)
                         .map(line -> stream(fieldValues).parallel()
-                                        .allMatch(expected -> expected.value().equals(line.get(file.fieldIndex(expected.field()))))
+                                .allMatch(expected -> expected.value().equals(line.get(file.fieldIndex(expected.field()))))
                         )
                         .orElse(false),
                 fieldValues.length == 0
@@ -89,20 +104,18 @@ public final class CsvValidationRules {
         );
     }
 
-    public static List<CsvRuleSpec> knownRuleSpecifications() {
-        return KNOWN_RULESPECS;
-    }
-
-    public static boolean isKnownSpecification(String specificationLine) {
-        return knownRuleSpecifications().stream().anyMatch(spec -> spec.accepts(specificationLine.trim()));
-    }
-
-    public static ModularValidatorBuilder<CsvFile> addToRuleset(ModularValidatorBuilder<CsvFile> ruleSet, String ruleToAdd) throws SpecificationParserException {
-        return fromLine(ruleToAdd).apply(ruleSet);
-    }
-
     public static Function<CsvFile, Optional<Vector<String>>> identifiedBy(FieldValue identifier) {
         return file -> file.findLineByFieldValue(identifier.field(), identifier.value());
     }
 
+    public static CsvValidationRules defaultRules() {
+        return DEFAULT_RULES;
+    }
+
+    public void addRuleSpecification(CsvRuleSpec csvRuleSpec) {
+        if(isKnownSpecification(csvRuleSpec.ruleName())) {
+            throw new IllegalStateException("Rule specification '%s' is already registered".formatted(csvRuleSpec.ruleName()));
+        }
+        this.knownRuleSpecifications.add(csvRuleSpec);
+    }
 }
