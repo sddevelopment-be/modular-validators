@@ -5,6 +5,7 @@ import be.sddevelopment.validation.dsl.CsvFile;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.ofNullable;
@@ -23,9 +24,10 @@ public record CsvRuleSpec(
     }
 
     static List<String> parametersFrom(String line) {
-        return List.of(line.substring(line.indexOf('(') + 1, line.indexOf(')'))
+        String[] rawParameters = line.substring(line.indexOf('(') + 1, line.indexOf(')'))
                 .trim()
                 .replace("'", "")
-                .split(CsvValidationRules.PARAMETER_SEPARATOR));
+                .split(CsvValidationRules.PARAMETER_SEPARATOR);
+        return Stream.of(rawParameters).map(String::trim).toList();
     }
 }

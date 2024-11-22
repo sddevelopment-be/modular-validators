@@ -13,6 +13,7 @@ import java.util.Vector;
 import java.util.function.Function;
 
 import static be.sddevelopment.commons.access.AccessProtectionUtils.utilityClassConstructor;
+import static be.sddevelopment.commons.exceptions.ExceptionSuppressor.ignore;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.joining;
 
@@ -22,7 +23,8 @@ public final class CsvValidationRules {
     public static final String PARAMETER_SEPARATOR = ",";
     private static final List<CsvRuleSpec> KNOWN_RULESPECS = List.of(
             new CsvRuleSpec("Field", CsvValidationRules::createFieldExistsRule),
-            new CsvRuleSpec("UniqueField", CsvValidationRules::createFieldDistinctnessRule)
+            new CsvRuleSpec("UniqueField", CsvValidationRules::createFieldDistinctnessRule),
+            new CsvRuleSpec("RecordExists", ignore(CsvValidationRules::containsRecord))
     );
 
     private CsvValidationRules() {
@@ -47,29 +49,43 @@ public final class CsvValidationRules {
         var field = CsvRuleSpec.parametersFrom(line).getFirst();
         return ruleset -> ruleset
                 .must(haveField(field))
-                .must(haveDistinctValuesFor(field))
-                ;
+                .must(haveDistinctValuesFor(field));
+    }
+
+    public static RuleSpecificationAppender<CsvFile> containsRecord(String line) throws SpecificationParserException {
+        var parameters = CsvRuleSpec.parametersFrom(line);
+        if (parameters.size() < 2) {
+            throw new SpecificationParserException("RecordExists rule requires at least two parameters");
+        }
+
+        var identifier = FieldValue.withValue(parameters.getFirst(), parameters.get(1));
+        return ruleSet -> ruleSet.must(containRecord(identifier));
     }
 
     public static Constraint<CsvFile> haveField(String field) {
-        return new Constraint<>(file -> file.headerFields().contains(field), "Field '%s' must exist in the data file".formatted(field));
+        return new Constraint<>(
+                file -> file.headerFields().contains(field),
+                "Field '%s' must exist in the data file".formatted(field)
+        );
     }
 
     public static Constraint<CsvFile> haveDistinctValuesFor(String field) {
-        return new Constraint<>(file ->
-                file.lines().size() == file.distinctValuesFor(field).size(),
+        return new Constraint<>(
+                file -> file.lines().size() == file.distinctValuesFor(field).size(),
                 "Field '%s' must have distinct values in the data file".formatted(field)
         );
     }
 
     public static Constraint<CsvFile> containRecord(FieldValue identifier, FieldValue... fieldValues) {
-
-        return new Constraint<>(file -> identifiedBy(identifier).apply(file)
-                .map(line -> stream(fieldValues).parallel()
-                        .allMatch(expected -> expected.value().equals(line.get(file.fieldIndex(expected.field()))))
-                )
-                .orElse(false),
-            "Expected record identified by %s with values [%s]".formatted(identifier.toString(), stream(fieldValues).map(FieldValue::toString).collect(joining(" and ")))
+        return new Constraint<>(
+                file -> identifiedBy(identifier).apply(file)
+                        .map(line -> stream(fieldValues).parallel()
+                                        .allMatch(expected -> expected.value().equals(line.get(file.fieldIndex(expected.field()))))
+                        )
+                        .orElse(false),
+                fieldValues.length == 0
+                        ? "Record identified by %s must exist in the data file".formatted(identifier.toString())
+                        : "Record identified by %s with values [%s] must exist in the data file".formatted(identifier.toString(), stream(fieldValues).map(FieldValue::toString).collect(joining(" and ")))
         );
     }
 

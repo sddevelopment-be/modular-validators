@@ -14,6 +14,7 @@
   <artifactId>dsl</artifactId>
 
   <description>
+    Experimental:
     A Domain Specific Language (DSL) to define validation rules, using a PlantUML-inspired syntax, enabling
     visualization of rulesets. The DSL can be parsed to create a ModularValidators ruleset, and used to validate
     adherence of objects.

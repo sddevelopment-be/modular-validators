@@ -3,7 +3,6 @@ package be.sddevelopment.validation.dsl.rules;
 import be.sddevelopment.commons.exceptions.WrappedException;
 import be.sddevelopment.commons.testing.naming.ReplaceUnderscoredCamelCasing;
 import be.sddevelopment.validation.core.Rationale;
-import be.sddevelopment.validation.core.Reason;
 import be.sddevelopment.validation.dsl.CsvFile;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +14,7 @@ import java.io.IOException;
 
 import static be.sddevelopment.validation.core.ModularRuleset.aValid;
 import static be.sddevelopment.validation.core.Reason.failed;
+import static be.sddevelopment.validation.core.Reason.passed;
 import static be.sddevelopment.validation.dsl.rules.CsvValidationRules.addToRuleset;
 
 @DisplayName("Csv Validation Rules")
@@ -134,6 +134,63 @@ class CsvValidationRulesTest implements WithAssertions {
                     .contains(failed("Field 'NAME' must have distinct values in the data file"));
         }
 
+
+    }
+
+    @Nested
+    class RecordExistenceRule {
+        private static final String RULE_SPEC = "RecordExists('NAME', 'C-3PO')";
+
+        @Test
+        void isKnownSpecification() {
+            assertThat(RULE_SPEC).matches(CsvValidationRules::isKnownSpecification);
+        }
+
+        @Test
+        void failsIfRecordIsNotPresent() throws Exception {
+            var fileToCheck = CsvFile.fromLines(
+                    """
+                    NAME, SPECIES
+                    Luke Skywalker, Human
+                    R2-D2, Droid
+                    Obi-Wan Kenobi, Human
+                    """.lines().toList()
+            );
+            var baseValidator = aValid(CsvFile.class);
+
+            var fieldExistenceValidator = addToRuleset(baseValidator, RULE_SPEC).iHaveSpoken();
+
+            var result = fieldExistenceValidator.check(fileToCheck);
+
+            assertThat(result).isNotNull().matches(Rationale::isFailing);
+            assertThat(result.details())
+                    .contains(
+                            failed("Record identified by NAME::'C-3PO' must exist in the data file")
+                    );
+        }
+
+        @Test
+        void passesIfRecordIsPresent() throws Exception {
+            var fileToCheck = CsvFile.fromLines(
+                    """
+                    NAME, SPECIES
+                    Luke Skywalker, Human
+                    R2-D2, Droid
+                    C-3PO, Droid
+                    """.lines().toList()
+            );
+            var baseValidator = aValid(CsvFile.class);
+
+            var fieldExistenceValidator = addToRuleset(baseValidator, RULE_SPEC).iHaveSpoken();
+
+            var result = fieldExistenceValidator.check(fileToCheck);
+
+            assertThat(result).isNotNull().matches(Rationale::isPassing);
+            assertThat(result.details())
+                    .contains(
+                            passed("Record identified by NAME::'C-3PO' must exist in the data file")
+                    );
+        }
 
     }
 }

@@ -176,8 +176,8 @@ class CsvFileTest implements WithAssertions {
             assertThat(result).satisfies(Constrained::isValid);
             assertThat(result.rationale().details())
                     .contains(
-                            passed("Expected record identified by NAME::'C-3PO' with values [SPECIES::'Droid' and HOMEWORLD::'Tatooine']"),
-                            passed("Expected record identified by NAME::'R2-D2' with values [SPECIES::'Droid' and HOMEWORLD::'Naboo']")
+                            passed("Record identified by NAME::'C-3PO' with values [SPECIES::'Droid' and HOMEWORLD::'Tatooine'] must exist in the data file"),
+                            passed("Record identified by NAME::'R2-D2' with values [SPECIES::'Droid' and HOMEWORLD::'Naboo'] must exist in the data file")
                     );
         }
 
@@ -202,8 +202,8 @@ class CsvFileTest implements WithAssertions {
                     .withMessage("These are not the droids you are looking for")
                     .extracting(InvalidObjectException::errors).asInstanceOf(LIST)
                     .contains(
-                            "FAIL: [Expected record identified by NAME::'C-3PO' with values [SPECIES::'Droid' and HOMEWORLD::'Tatooine']]",
-                            "FAIL: [Expected record identified by NAME::'R2-D2' with values [SPECIES::'Droid' and HOMEWORLD::'Naboo']]"
+                            "FAIL: [Record identified by NAME::'C-3PO' with values [SPECIES::'Droid' and HOMEWORLD::'Tatooine'] must exist in the data file]",
+                            "FAIL: [Record identified by NAME::'R2-D2' with values [SPECIES::'Droid' and HOMEWORLD::'Naboo'] must exist in the data file]"
                     );
         }
 

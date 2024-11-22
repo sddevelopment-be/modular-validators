@@ -53,6 +53,7 @@ public record CsvFile(
     public static @Nullable CsvFile fromFile(Path dataFile) throws IOException {
         return CsvFile.fromLines(readAllLines(dataFile), dataFile.toFile().getName());
     }
+
     public static CsvFile fromLines(List<String> lines) throws IOException {
         return fromLines(lines, DEFAULT);
     }
@@ -96,7 +97,7 @@ public record CsvFile(
     }
 
     public List<String> distinctValuesFor(String field) {
-        if(!headerFields().contains(field)) {
+        if (!headerFields().contains(field)) {
             return List.of();
         }
 
