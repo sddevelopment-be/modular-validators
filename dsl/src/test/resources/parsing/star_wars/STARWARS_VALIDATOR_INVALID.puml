@@ -1,0 +1,4 @@
+ValidatorFor(".*STARWARS.*\\.csv") {
+
+	FieldExists
+}

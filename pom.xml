@@ -2,249 +2,442 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <groupId>be.sddevelopment</groupId>
-    <artifactId>modular-validators</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+  <groupId>be.sddevelopment.validation</groupId>
+  <artifactId>modular-validators</artifactId>
+  <version>1.1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
 
-    <description>
-        Java library to create modular validator-objects. Intended to be used as a utility library in other
-        projects to avoid the overhead of writing custom validation frameworks. Modular Validators supports the creation
-        of specific validator objects, that can use both internal state, and external services to assess the validity of
-        an object.
-    </description>
+  <description>
+    Java library to create modular validator-objects. Intended to be used as a utility library in other
+    projects to avoid the overhead of writing custom validation frameworks. Modular Validators supports the creation
+    of specific validator objects, that can use both internal state, and external services to assess the validity of
+    an object.
+  </description>
 
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub SDDevelopment Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/sddevelopment-be/modular-validators</url>
-        </repository>
-    </distributionManagement>
+  <url>https://github.com/sddevelopment-be/modular-validators</url>
 
-    <properties>
-        <java.version>21</java.version>
-        <encoding>UTF-8</encoding>
-        <reportOutputDirectory>${project.basedir}/docs/</reportOutputDirectory>
+  <organization>
+    <name>SD Development</name>
+    <url>https://www.sddevelopment.be</url>
+  </organization>
 
-        <archunit.version>1.3.0</archunit.version>
-        <junit.jupiter.version>5.11.0</junit.jupiter.version>
-        <assertj.version>3.26.3</assertj.version>
-        <jacoco.build.dir>${project.build.directory}/jacoco</jacoco.build.dir>
+  <licenses>
+    <license>
+      <name>EUPL v.1.2</name>
+      <url>https://github.com/sddevelopment-be/modular-validators/blob/main/LICENSE</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
 
-        <sonar.organization>sddevelopment-be</sonar.organization>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.projectKey>sddevelopment_modular-validators</sonar.projectKey>
-        <sonar.coverage.jacoco.xmlReportPaths>${jacoco.build.dir}/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-    </properties>
+  <developers>
+    <developer>
+      <name>Stijn Dejongh</name>
+      <organization>SD Development</organization>
+      <organizationUrl>https://www.sddevelopment.be</organizationUrl>
+      <roles>
+        <role>Project maintainer</role>
+      </roles>
+    </developer>
+  </developers>
 
-    <organization>
-        <name>SD Development</name>
-        <url>https://www.sddevelopment.be</url>
-    </organization>
-    <developers>
-        <developer>
-            <name>Stijn Dejongh</name>
-            <organization>SD Development</organization>
-            <organizationUrl>https://www.sddevelopment.be</organizationUrl>
-            <roles>
-                <role>Project maintainer</role>
-            </roles>
-        </developer>
-    </developers>
+  <modules>
+    <module>core</module>
+    <module>dsl</module>
+  </modules>
 
+  <scm>
+    <connection>scm:git:ssh://git@github.com/sddevelopment-be/modular-validators.git</connection>
+    <url>${project.url}</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub SDDevelopment Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/sddevelopment-be/modular-validators</url>
+    </repository>
+  </distributionManagement>
+
+  <properties>
+    <java.version>21</java.version>
+    <encoding>UTF-8</encoding>
+    <reportOutputDirectory>${project.basedir}/docs/</reportOutputDirectory>
+
+    <archunit.version>1.3.0</archunit.version>
+    <junit.jupiter.version>5.11.0</junit.jupiter.version>
+    <assertj.version>3.26.3</assertj.version>
+    <jacoco.build.dir>${project.build.directory}/jacoco</jacoco.build.dir>
+
+    <sonar.organization>sddevelopment-be</sonar.organization>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+    <sonar.projectKey>sddevelopment_modular-validators</sonar.projectKey>
+    <sonar.coverage.jacoco.xmlReportPaths>${jacoco.build.dir}/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+
+    <code.utils.version>1.0.1</code.utils.version>
+    <rewrite.version>5.45.0</rewrite.version>
+  </properties>
+
+  <dependencyManagement>
     <dependencies>
-        <!-- -->
+      <dependency>
+        <groupId>be.sddevelopment.validation</groupId>
+        <artifactId>core</artifactId>
+        <version>1.1.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>be.sddevelopment.validation</groupId>
+        <artifactId>dsl</artifactId>
+        <version>${version}</version>
+      </dependency>
 
-        <!-- BEGIN TEST SCOPE -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.jupiter.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
+      <dependency>
+        <groupId>org.jspecify</groupId>
+        <artifactId>jspecify</artifactId>
+        <version>1.0.0</version>
+      </dependency>
+      <dependency>
+        <groupId>be.sddevelopment.commons</groupId>
+        <artifactId>commons-kernel</artifactId>
+        <version>${code.utils.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>be.sddevelopment.commons</groupId>
+        <artifactId>commons</artifactId>
+        <version>${code.utils.version}</version>
+      </dependency>
+
+      <!-- BEGIN TEST SCOPE -->
+      <dependency>
+        <groupId>be.sddevelopment.commons</groupId>
+        <artifactId>commons-testing</artifactId>
+        <scope>test</scope>
+        <version>${code.utils.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-api</artifactId>
+        <version>${junit.jupiter.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-params</artifactId>
+        <version>${junit.jupiter.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>${junit.jupiter.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>${assertj.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-junit-jupiter</artifactId>
+        <version>5.12.0</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>net.bytebuddy</groupId>
+        <artifactId>byte-buddy</artifactId>
+        <version>1.14.11</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>net.bytebuddy</groupId>
+        <artifactId>byte-buddy-agent</artifactId>
+        <version>1.14.11</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.tngtech.archunit</groupId>
+        <artifactId>archunit</artifactId>
+        <version>${archunit.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.tngtech.archunit</groupId>
+        <artifactId>archunit-junit5</artifactId>
+        <version>${archunit.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.tngtech.archunit</groupId>
+        <artifactId>archunit-junit5-engine</artifactId>
+        <version>${archunit.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <!-- END TEST SCOPE -->
+
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>33.3.0-jre</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.14.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-slf4j2-impl</artifactId>
+        <version>2.24.0</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.jspecify</groupId>
+      <artifactId>jspecify</artifactId>
+    </dependency>
+  </dependencies>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>ossrh-snapshots</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </pluginRepository>
+  </pluginRepositories>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.sonarsource.scanner.maven</groupId>
+          <artifactId>sonar-maven-plugin</artifactId>
+          <version>3.10.0.2594</version>
+          <configuration>
+            <excludes>
+              <exclude>be/sddevelopment/**/*TestUtils*/</exclude>
+            </excludes>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.5.0</version>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.1.2</version>
+        <dependencies>
+          <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.jupiter.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>${assertj.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
-            <version>5.12.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.bytebuddy</groupId>
-            <artifactId>byte-buddy</artifactId>
-            <version>1.14.11</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.bytebuddy</groupId>
-            <artifactId>byte-buddy-agent</artifactId>
-            <version>1.14.11</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.tngtech.archunit</groupId>
-            <artifactId>archunit</artifactId>
-            <version>${archunit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.tngtech.archunit</groupId>
-            <artifactId>archunit-junit5</artifactId>
-            <version>${archunit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.tngtech.archunit</groupId>
-            <artifactId>archunit-junit5-engine</artifactId>
-            <version>${archunit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- END TEST SCOPE -->
+          </dependency>
+        </dependencies>
+      </plugin>
 
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>33.3.0-jre</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.14.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j2-impl</artifactId>
-            <version>2.24.0</version>
-        </dependency>
-    </dependencies>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.12</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <!-- attached to Maven test phase -->
+          <execution>
+            <id>report</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+            <configuration>
+              <dataFile>target/jacoco.exec</dataFile>
+              <outputDirectory>target/jacoco</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
 
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.sonarsource.scanner.maven</groupId>
-                    <artifactId>sonar-maven-plugin</artifactId>
-                    <version>3.10.0.2594</version>
-                    <configuration>
-                        <excludes>
-                            <exclude>be/sddevelopment/**/*TestUtils*/</exclude>
-                        </excludes>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
+      <plugin>
+        <groupId>org.openrewrite.maven</groupId>
+        <artifactId>rewrite-maven-plugin</artifactId>
+        <version>${rewrite.version}</version>
+        <configuration>
+          <exportDatatables>true</exportDatatables>
+          <activeRecipes>
+            <recipe>org.openrewrite.maven.OrderPomElements</recipe>
+            <recipe>org.openrewrite.java.OrderImports</recipe>
+            <recipe>org.openrewrite.java.RemoveUnusedImports</recipe>
+            <recipe>org.openrewrite.java.testing.junit5.JUnit5BestPractices</recipe>
+            <recipe>org.openrewrite.java.testing.assertj.Assertj</recipe>
+            <recipe>org.openrewrite.java.dependencies.RemoveExpiredSuppressions</recipe>
+            <recipe>org.openrewrite.java.dependencies.DependencyVulnerabilityCheck</recipe>
+            <recipe>org.openrewrite.java.dependencies.SoftwareBillOfMaterials</recipe>
+            <recipe>org.openrewrite.github.PreferTemurinDistributions</recipe>
+            <recipe>org.openrewrite.staticanalysis.AnnotateNullableMethods</recipe>
+            <recipe>org.openrewrite.staticanalysis.ChainStringBuilderAppendCalls</recipe>
+            <recipe>org.openrewrite.staticanalysis.CompareEnumsWithEqualityOperator</recipe>
+            <recipe>org.openrewrite.staticanalysis.ExplicitLambdaArgumentTypes</recipe>
+            <recipe>org.openrewrite.staticanalysis.FixStringFormatExpressions</recipe>
+            <recipe>org.openrewrite.staticanalysis.MissingOverrideAnnotation</recipe>
+            <recipe>org.openrewrite.staticanalysis.ModifierOrder</recipe>
+            <recipe>org.openrewrite.staticanalysis.NeedBraces</recipe>
+            <recipe>org.openrewrite.staticanalysis.NoFinalizedLocalVariables</recipe>
+            <recipe>org.openrewrite.staticanalysis.OperatorWrap</recipe>
+            <recipe>org.openrewrite.staticanalysis.RemoveEmptyJavaDocParameters</recipe>
+            <recipe>org.openrewrite.staticanalysis.RemoveExtraSemicolons</recipe>
+            <recipe>org.openrewrite.staticanalysis.RenameLocalVariablesToCamelCase</recipe>
+            <recipe>org.openrewrite.staticanalysis.SimplifyTernaryRecipes</recipe>
+            <recipe>org.openrewrite.staticanalysis.UseSystemLineSeparator</recipe>
+            <recipe>org.openrewrite.recommendations.CodeStyle</recipe>
+          </activeRecipes>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.openrewrite</groupId>
+            <artifactId>rewrite-java</artifactId>
+            <version>8.40.2</version>
+          </dependency>
+          <dependency>
+            <groupId>org.openrewrite.recipe</groupId>
+            <artifactId>rewrite-java-dependencies</artifactId>
+            <version>1.23.0</version>
+          </dependency>
+          <dependency>
+            <groupId>org.openrewrite.recipe</groupId>
+            <artifactId>rewrite-testing-frameworks</artifactId>
+            <version>2.22.0</version>
+          </dependency>
+          <dependency>
+            <groupId>org.openrewrite.recipe</groupId>
+            <artifactId>rewrite-github-actions</artifactId>
+            <version>2.9.2</version>
+          </dependency>
+          <dependency >
+            <groupId>org.openrewrite.recipe</groupId>
+            <artifactId>rewrite-static-analysis</artifactId>
+            <version>1.20.0</version>
+          </dependency>
+          <dependency>
+            <groupId>org.openrewrite.recipe</groupId>
+            <artifactId>rewrite-recommendations</artifactId>
+            <version>1.13.0</version>
+          </dependency>
+
+        </dependencies>
+      </plugin>
+
+    </plugins>
+  </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.5.0</version>
+        <configuration>
+          <reportOutputDirectory>docs/javadoc</reportOutputDirectory>
+          <destDir>javadoc</destDir>
+          <stylesheet>maven</stylesheet>
+        </configuration>
+        <reportSets>
+          <reportSet>
+            <id>aggregate</id>
+            <inherited>false</inherited>
+            <reports>
+              <report>aggregate</report>
+            </reports>
+          </reportSet>
+          <reportSet>
+            <id>default</id>
+            <reports>
+              <report>javadoc</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
+
+  <profiles>
+    <profile>
+      <id>publisher</id>
+      <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.5.0</version>
-                <configuration>
-                    <stylesheet>maven</stylesheet>
-                    <javadocDirectory>src/main/javadoc</javadocDirectory>
-                    <addStylesheets>
-                        <resources>/styles/stylesheet.css</resources>
-                    </addStylesheets>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.1.2</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.junit.jupiter</groupId>
-                        <artifactId>junit-jupiter-engine</artifactId>
-                        <version>${junit.jupiter.version}</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.12</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <!-- attached to Maven test phase -->
-                    <execution>
-                        <id>report</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                        <configuration>
-                            <dataFile>target/jacoco.exec</dataFile>
-                            <outputDirectory>target/jacoco</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-                <configuration>
-                    <excludes>
-                        <exclude>be/sddevelopment/**/*TestUtils*/</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>3.2.7</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>3.6.3</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>3.3.1</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+            <version>0.6.0</version>
+            <extensions>true</extensions>
+            <configuration>
+              <autoPublish>false</autoPublish>
+              <deploymentName>${project.artifactId}:${project.version}</deploymentName>
+              <waitUntil>validated</waitUntil>
+              <publishingServerId>ossrh</publishingServerId>
+            </configuration>
+          </plugin>
         </plugins>
-    </build>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.5.0</version>
-                <configuration>
-                    <stylesheet>maven</stylesheet>
-                    <javadocDirectory>src/main/javadoc</javadocDirectory>
-                    <addStylesheets>
-                        <resources>${project.basedir}/javadoc/stylesheet.css</resources>
-                    </addStylesheets>
-                    <encoding>${encoding}</encoding>
-                </configuration>
-                <reportSets>
-                    <reportSet>
-                        <id>aggregate</id>
-                        <inherited>false</inherited>
-                        <reports>
-                            <report>aggregate</report>
-                        </reports>
-                    </reportSet>
-                    <reportSet>
-                        <id>default</id>
-                        <reports>
-                            <report>javadoc</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-        </plugins>
-    </reporting>
+      </build>
+    </profile>
+  </profiles>
 </project>

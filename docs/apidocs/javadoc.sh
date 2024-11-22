@@ -1,0 +1,1 @@
+/home/stijn/.sdkman/candidates/java/23-tem/bin/javadoc @options @packages
