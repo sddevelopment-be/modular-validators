@@ -5,14 +5,11 @@ import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
 import org.jspecify.annotations.Nullable;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.Vector;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import static java.nio.file.Files.readAllLines;
@@ -53,7 +50,14 @@ public record CsvFile(
         return lines.get(lineNumber);
     }
 
+    public static @Nullable CsvFile fromFile(Path dataFile) throws IOException {
+        return CsvFile.fromLines(readAllLines(dataFile), dataFile.toFile().getName());
+    }
     public static CsvFile fromLines(List<String> lines) throws IOException {
+        return fromLines(lines, DEFAULT);
+    }
+
+    public static CsvFile fromLines(List<String> lines, String fileIdentifier) throws IOException {
         if (lines.isEmpty()) {
             throw new IllegalArgumentException("No lines provided. A data file requires at least one line");
         }
@@ -61,7 +65,7 @@ public record CsvFile(
         var header = parseHeader(lines.getFirst());
 
         var dataLines = lines.stream().skip(1).map(ExceptionSuppressor.uncheck(CsvFile::parseLine)).toList();
-        return new CsvFile(DEFAULT, header, new Vector<>(dataLines));
+        return new CsvFile(fileIdentifier, header, new Vector<>(dataLines));
     }
 
     private static Vector<String> parseHeader(String lineToParse) throws IOException {
@@ -83,15 +87,22 @@ public record CsvFile(
                 .build();
     }
 
-    public static @Nullable CsvFile fromFile(Path dataFile) throws IOException {
-        return CsvFile.fromLines(readAllLines(dataFile));
-    }
-
     public boolean isEmpty() {
         return this.lines.isEmpty();
     }
 
     public boolean isNotEmpty() {
         return !this.isEmpty();
+    }
+
+    public List<String> distinctValuesFor(String field) {
+        if(!headerFields().contains(field)) {
+            return List.of();
+        }
+
+        return lines.parallelStream()
+                .map(line -> line.get(fieldIndex(field)))
+                .distinct()
+                .toList();
     }
 }

@@ -45,16 +45,16 @@ class CsvFileSpecificationParserTest implements WithAssertions {
                 .isInstanceOf(SpecificationParserException.class);
     }
 
+    @Disabled("Not yet fully implemented")
     @Nested
     class parsesSimplesRulesTest {
 
-        @Disabled("This test is disabled because the implementation is not yet complete")
         @ParameterizedTest
         @ValueSource(strings = {
-                "RecordIdentifier('NAME')",
+                "Field('HOMEWORLD')",
+                "UniqueField('NAME')",
                 "FieldPopulated('SPECIES')",
-                "FieldExists('HOMEWORLD')",
-                "RecordExists('C-3PO')"
+                "RecordExists('NAME', 'C-3PO')"
         })
         void recognizesSimpleRule(String ruleToParse) {
             assertThat(ruleToParse).matches(

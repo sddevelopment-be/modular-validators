@@ -14,17 +14,52 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Vector;
 
 import static be.sddevelopment.validation.core.ModularRuleset.aValid;
 import static be.sddevelopment.validation.core.Reason.passed;
-import static be.sddevelopment.validation.dsl.ExpectedValue.withValue;
-import static be.sddevelopment.validation.dsl.rules.CsvValidationRules.containRecord;
-import static be.sddevelopment.validation.dsl.rules.CsvValidationRules.haveField;
+import static be.sddevelopment.validation.dsl.FieldValue.withValue;
+import static be.sddevelopment.validation.dsl.rules.CsvValidationRules.*;
 
 @Slf4j
 @DisplayName("Comma Separated Values File")
 @DisplayNameGeneration(ReplaceUnderscoredCamelCasing.class)
 class CsvFileTest implements WithAssertions {
+
+    @Test
+    void doesNotAllowNullHeaders() {
+        var identifier = "STARWARS_INPUT_DATA.csv";
+        var lines = new Vector<Vector<String>>();
+
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> new CsvFile(identifier, null, lines)
+                )
+                .withMessage("Header fields and lines must not be null")
+                .withNoCause();
+    }
+
+    @Test
+    void doesNotAllowNullLines() {
+        var identifier = "STARWARS_INPUT_DATA.csv";
+        var header = new Vector<>(List.of("NAME", "HEIGHT", "SPECIES"));
+
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> new CsvFile(identifier, header, null)
+                )
+                .withMessage("Header fields and lines must not be null")
+                .withNoCause();
+    }
+
+    @Test
+    void containsFileNameAfterParsing() throws Exception {
+        var dataFile = Paths.get(CsvFileTest.class.getClassLoader().getResource("parsing/star_wars/STARWARS_INPUT_DATA.csv").toURI());
+        assertThat(dataFile).exists().isRegularFile().hasExtension("csv");
+
+        var result = CsvFile.fromFile(dataFile);
+
+        assertThat(result).satisfies(CsvFile::isNotEmpty);
+        assertThat(result.fileIdentifier()).contains("STARWARS_INPUT_DATA.csv");
+    }
 
     @Nested
     class LineBasedParsing {
@@ -71,11 +106,58 @@ class CsvFileTest implements WithAssertions {
     }
 
     @Nested
+    class ContentAccessors {
+        @Test
+        void listsAllDistinctValuesForExistingField() throws Exception {
+            var dataWithHeader = """
+                        NAME,HEIGHT,SPECIES
+                        Luke Skywalker,172,Human
+                        C-3PO,167,Droid
+                        R2-D2,96,Droid
+                        Boba Fett,183, Human
+                    """;
+            var file = CsvFile.fromLines(dataWithHeader.lines().toList());
+
+            var result = file.distinctValuesFor("SPECIES");
+
+            assertThat(result).contains("Human", "Droid");
+        }
+
+        @Test
+        void listNoValuesForMissingField() throws Exception {
+            var dataWithHeader = """
+                        NAME,HEIGHT,SPECIES
+                        Luke Skywalker,172,Human
+                        C-3PO,167,Droid
+                    """;
+            var file = CsvFile.fromLines(dataWithHeader.lines().toList());
+
+            var result = file.distinctValuesFor("HOMEWORLD");
+
+            assertThat(result).isEmpty();
+        }
+
+        @Test
+        void listNoValuesForEmptyFile() throws Exception {
+            var dataWithHeader = """
+                    NAME,HEIGHT,SPECIES
+                    """;
+            var file = CsvFile.fromLines(dataWithHeader.lines().toList());
+            assertThat(file).isNotNull().satisfies(CsvFile::isEmpty);
+
+            var result = file.distinctValuesFor("NAME");
+
+            assertThat(result).isEmpty();
+        }
+    }
+
+    @Nested
     @DisplayName("Using CsvFile for validation")
     class UseCaseTest {
 
         public static final ModularRuleset<CsvFile> THE_DROIDS_WE_ARE_LOOKING_FOR = aValid(CsvFile.class)
                 .must(haveField("NAME"))
+                .must(haveDistinctValuesFor("NAME"))
                 .must(haveField("SPECIES"))
                 .must(containRecord(withName("C-3PO"), withSpecies("Droid"), withHomeWorld("Tatooine")))
                 .must(containRecord(withName("R2-D2"), withSpecies("Droid"), withHomeWorld("Naboo")))
@@ -125,15 +207,15 @@ class CsvFileTest implements WithAssertions {
                     );
         }
 
-        private static ExpectedValue withSpecies(String species) {
+        private static FieldValue withSpecies(String species) {
             return withValue("SPECIES", species);
         }
 
-        private static ExpectedValue withHomeWorld(String homeWorld) {
+        private static FieldValue withHomeWorld(String homeWorld) {
             return withValue("HOMEWORLD", homeWorld);
         }
 
-        private static ExpectedValue withName(String name) {
+        private static FieldValue withName(String name) {
             return withValue("NAME", name);
         }
 

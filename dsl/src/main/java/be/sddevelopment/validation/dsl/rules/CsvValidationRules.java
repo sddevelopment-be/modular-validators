@@ -4,15 +4,13 @@ import be.sddevelopment.commons.annotations.Utility;
 import be.sddevelopment.validation.core.Constraint;
 import be.sddevelopment.validation.core.ModularRuleset.ModularValidatorBuilder;
 import be.sddevelopment.validation.dsl.CsvFile;
-import be.sddevelopment.validation.dsl.ExpectedValue;
+import be.sddevelopment.validation.dsl.FieldValue;
 import be.sddevelopment.validation.dsl.SpecificationParserException;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Vector;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static be.sddevelopment.commons.access.AccessProtectionUtils.utilityClassConstructor;
 import static java.util.Arrays.stream;
@@ -23,7 +21,8 @@ public final class CsvValidationRules {
 
     public static final String PARAMETER_SEPARATOR = ",";
     private static final List<CsvRuleSpec> KNOWN_RULESPECS = List.of(
-            new CsvRuleSpec("FieldExists", CsvValidationRules::createFieldExistsRule)
+            new CsvRuleSpec("Field", CsvValidationRules::createFieldExistsRule),
+            new CsvRuleSpec("UniqueField", CsvValidationRules::createFieldDistinctnessRule)
     );
 
     private CsvValidationRules() {
@@ -33,7 +32,7 @@ public final class CsvValidationRules {
     public static Function<ModularValidatorBuilder<CsvFile>, ModularValidatorBuilder<CsvFile>> fromLine(String line)
             throws SpecificationParserException {
         return knownRuleSpecifications().stream()
-                .map(spec -> spec.toRule(line))
+                .map(spec -> spec.toRule(line.trim()))
                 .flatMap(Optional::stream)
                 .findFirst()
                 .orElseThrow(() -> new SpecificationParserException("Unknown rule specification: %s".formatted(line)));
@@ -44,18 +43,33 @@ public final class CsvValidationRules {
         return ruleset -> ruleset.must(haveField(field));
     }
 
+    public static RuleSpecificationAppender<CsvFile> createFieldDistinctnessRule(String line) {
+        var field = CsvRuleSpec.parametersFrom(line).getFirst();
+        return ruleset -> ruleset
+                .must(haveField(field))
+                .must(haveDistinctValuesFor(field))
+                ;
+    }
+
     public static Constraint<CsvFile> haveField(String field) {
         return new Constraint<>(file -> file.headerFields().contains(field), "Field '%s' must exist in the data file".formatted(field));
     }
 
-    public static Constraint<CsvFile> containRecord(ExpectedValue identifier, ExpectedValue... expectedValues) {
+    public static Constraint<CsvFile> haveDistinctValuesFor(String field) {
+        return new Constraint<>(file ->
+                file.lines().size() == file.distinctValuesFor(field).size(),
+                "Field '%s' must have distinct values in the data file".formatted(field)
+        );
+    }
+
+    public static Constraint<CsvFile> containRecord(FieldValue identifier, FieldValue... fieldValues) {
 
         return new Constraint<>(file -> identifiedBy(identifier).apply(file)
-                .map(line -> stream(expectedValues).parallel()
+                .map(line -> stream(fieldValues).parallel()
                         .allMatch(expected -> expected.value().equals(line.get(file.fieldIndex(expected.field()))))
                 )
                 .orElse(false),
-            "Expected record identified by %s with values [%s]".formatted(identifier.toString(), stream(expectedValues).map(ExpectedValue::toString).collect(joining(" and ")))
+            "Expected record identified by %s with values [%s]".formatted(identifier.toString(), stream(fieldValues).map(FieldValue::toString).collect(joining(" and ")))
         );
     }
 
@@ -71,7 +85,7 @@ public final class CsvValidationRules {
         return fromLine(ruleToAdd).apply(ruleSet);
     }
 
-    public static Function<CsvFile, Optional<Vector<String>>> identifiedBy(ExpectedValue identifier) {
+    public static Function<CsvFile, Optional<Vector<String>>> identifiedBy(FieldValue identifier) {
         return file -> file.findLineByFieldValue(identifier.field(), identifier.value());
     }
 

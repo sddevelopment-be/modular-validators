@@ -1,6 +1,4 @@
 ValidatorFor(".*STARWARS.*\\.csv") {
-	Header {
-		Field('NAME')
 		Field('HEIGHT')
 		Field('MASS')
 		Field('HAIR_COLOR')
@@ -10,21 +8,20 @@ ValidatorFor(".*STARWARS.*\\.csv") {
 		Field('GENDER')
 		Field('HOMEWORLD')
 		Field('SPECIES')
-	}
+		UniqueField('NAME')
 
-	RecordIdentifier('NAME')
-	FieldPopulated('SPECIES')
-	FieldPopulated('HOMEWORLD')
+		FieldPopulated('SPECIES')
+		FieldPopulated('HOMEWORLD')
 
-	ValidationCase("GoldenBoy") {
-   RecordExists('C-3PO')
-   RecordHasValue('C-3PO', 'SKIN_COLOR', 'gold')
-   RecordHasValue('C-3PO', 'SPECIES', 'Droid')
-  }
+		ValidationCase("GoldenBoy") {
+		  RecordExists('NAME', 'C-3PO')
+		  HasValue('SKIN_COLOR', 'gold')
+		  HasValue('SPECIES', 'Droid')
+		}
 
-	ValidationCase("The true protagonist") {
-   RecordExists('R2-D2')
-   RecordHasValue('R2-D2', 'SKIN_COLOR', 'white, blue')
-   RecordHasValue('R2-D2', 'SPECIES', 'Droid')
-  }
+		ValidationCase("The true protagonist") {
+		  RecordExists('NAME', 'R2-D2')
+		  HasValue('SKIN_COLOR', 'white, blue')
+		  HasValue('SPECIES', 'Droid')
+		}
 }

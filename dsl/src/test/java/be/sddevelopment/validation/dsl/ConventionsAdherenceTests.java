@@ -5,7 +5,7 @@ import be.sddevelopment.commons.testing.naming.ReplaceUnderscoredCamelCasing;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import org.junit.jupiter.api.DisplayNameGeneration;
 
-@AnalyzeClasses(packages = "be.sddevelopment.commons")
+@AnalyzeClasses(packages = "be.sddevelopment.validation.dsl")
 @DisplayNameGeneration(ReplaceUnderscoredCamelCasing.class)
 public class ConventionsAdherenceTests implements CodeConventions {
 

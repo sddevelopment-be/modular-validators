@@ -1,12 +1,12 @@
 package be.sddevelopment.validation.dsl;
 
-public record ExpectedValue(
+public record FieldValue(
         String field,
         String value
 ) {
 
-    public static ExpectedValue withValue(String field, String value) {
-        return new ExpectedValue(field, value);
+    public static FieldValue withValue(String field, String value) {
+        return new FieldValue(field, value);
     }
 
     @Override
