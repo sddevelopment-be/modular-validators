@@ -15,6 +15,21 @@ import static be.sddevelopment.commons.exceptions.ExceptionSuppressor.ignore;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.joining;
 
+/**
+ * <p>
+ * A `CsvValidationRules` instance is created with a list of known rule specifications {@link CsvRuleSpec}.
+ * These specifications are used to create new rules based on the input line.
+ * The rules are then added to a {@link ModularValidatorBuilder} instance, which is returned to the caller.
+ * <br />
+ * A {@link CsvValidationRules} singleton object with basic rule specifications is provided by the {@link #defaultRules()} method.
+ * </p>
+ * <p>
+ * Extensibility of the code is ensured due to the `CsvValidationRules` following the [Open-Closed principle](https://en.wikipedia.org/wiki/Open%E2%80%93closed_principle)
+ * by disallowing the class itself to be modfied (`final`) but allowing new RuleSpecifications to be added dynamically. As such, the class is mutable.
+ * </p>
+ *
+ * @since 1.1.0-SNAPSHOT
+ */
 public final class CsvValidationRules {
 
     private static final List<CsvRuleSpec> BASE_RULE_SPECIFICATIONS = List.of(
@@ -26,6 +41,10 @@ public final class CsvValidationRules {
     );
     private static final CsvValidationRules DEFAULT_RULES = new CsvValidationRules(BASE_RULE_SPECIFICATIONS);
 
+    /**
+     * To ensure that the class is thread-safe, the `knownRuleSpecifications` field is specified as a synchronized {@link Vector} collection
+     * instead of a simple {@link List}.
+     */
     private Vector<CsvRuleSpec> knownRuleSpecifications;
 
     public CsvValidationRules(List<CsvRuleSpec> knownRuleSpecifications) {
