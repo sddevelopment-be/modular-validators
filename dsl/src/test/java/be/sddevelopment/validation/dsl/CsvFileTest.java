@@ -57,7 +57,7 @@ class CsvFileTest implements WithAssertions {
 
         var result = CsvFile.fromFile(dataFile);
 
-        assertThat(result).satisfies(CsvFile::isNotEmpty);
+        assertThat(result).matches(CsvFile::isNotEmpty);
         assertThat(result.fileIdentifier()).contains("STARWARS_INPUT_DATA.csv");
     }
 
@@ -143,7 +143,7 @@ class CsvFileTest implements WithAssertions {
                     NAME,HEIGHT,SPECIES
                     """;
             var file = CsvFile.fromLines(dataWithHeader.lines().toList());
-            assertThat(file).isNotNull().satisfies(CsvFile::isEmpty);
+            assertThat(file).isNotNull().matches(CsvFile::isEmpty);
 
             var result = file.distinctValuesFor("NAME");
 
@@ -169,11 +169,11 @@ class CsvFileTest implements WithAssertions {
             assertThat(dataFile).exists().isRegularFile().hasExtension("csv");
 
             var fileToValidate = CsvFile.fromFile(dataFile);
-            assertThat(fileToValidate).isNotNull().satisfies(CsvFile::isNotEmpty);
+            assertThat(fileToValidate).isNotNull().matches(CsvFile::isNotEmpty);
 
             var result = THE_DROIDS_WE_ARE_LOOKING_FOR.constrain(fileToValidate);
 
-            assertThat(result).satisfies(Constrained::isValid);
+            assertThat(result).matches(Constrained::isValid);
             assertThat(result.rationale().details())
                     .contains(
                             passed("Record identified by NAME::'C-3PO' with values [SPECIES::'Droid' and HOMEWORLD::'Tatooine'] must exist in the data file"),
@@ -194,7 +194,7 @@ class CsvFileTest implements WithAssertions {
                             Han Solo,180,80,brown,fair,brown,29BBY,male,Corellia,Human        
                             """.lines().toList()
             );
-            assertThat(fileToValidate).isNotNull().satisfies(CsvFile::isNotEmpty);
+            assertThat(fileToValidate).isNotNull().matches(CsvFile::isNotEmpty);
 
             var result = THE_DROIDS_WE_ARE_LOOKING_FOR.constrain(fileToValidate);
             assertThatExceptionOfType(InvalidObjectException.class)

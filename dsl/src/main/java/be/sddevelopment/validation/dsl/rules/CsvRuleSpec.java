@@ -15,6 +15,8 @@ public record CsvRuleSpec(
         Function<String, RuleSpecificationAppender<CsvFile>> ruleBuilder
 ) {
 
+    public static final String DEFAULT_PARAMETER_SEPARATOR = ",";
+
     public Optional<RuleSpecificationAppender<CsvFile>> toRule(String line) {
         return accepts(line) ? ofNullable(ruleBuilder().apply(line)) : empty();
     }
@@ -27,7 +29,7 @@ public record CsvRuleSpec(
         String[] rawParameters = line.substring(line.indexOf('(') + 1, line.indexOf(')'))
                 .trim()
                 .replace("'", "")
-                .split(CsvValidationRules.DEFAULT_PARAMETER_SEPARATOR);
+                .split(DEFAULT_PARAMETER_SEPARATOR);
         return Stream.of(rawParameters).map(String::trim).toList();
     }
 }

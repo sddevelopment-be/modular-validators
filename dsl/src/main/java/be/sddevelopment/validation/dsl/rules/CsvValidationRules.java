@@ -17,7 +17,6 @@ import static java.util.stream.Collectors.joining;
 
 public final class CsvValidationRules {
 
-    public static final String DEFAULT_PARAMETER_SEPARATOR = ",";
     private static final List<CsvRuleSpec> BASE_RULE_SPECIFICATIONS = List.of(
             new CsvRuleSpec("Field", CsvValidationRules::createFieldExistsRule),
             new CsvRuleSpec("Distinct", CsvValidationRules::createFieldDistinctnessRule),
@@ -113,7 +112,7 @@ public final class CsvValidationRules {
     }
 
     public void addRuleSpecification(CsvRuleSpec csvRuleSpec) {
-        if(isKnownSpecification(csvRuleSpec.ruleName())) {
+        if (isKnownSpecification(csvRuleSpec.ruleName())) {
             throw new IllegalStateException("Rule specification '%s' is already registered".formatted(csvRuleSpec.ruleName()));
         }
         this.knownRuleSpecifications.add(csvRuleSpec);
