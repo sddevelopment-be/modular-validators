@@ -17,6 +17,76 @@ way.
 
 ---
 
+# User Guide
+
+This section will provide a brief overview of the different parts of the framework, and how they can be used to create a modular validation solution.
+The library is divided into two modules for now:
+
+* `modular-validators-core`: This module contains the core validation logic, and the basic building blocks for creating custom validators.
+* `modular-validators-dsl`: This module contains a pre-built validator for flat data files, and a Domain Specific Language to allow for the 
+  customization of validation specifications. 
+
+## Reusable Validators
+
+The `modular-validators-core` module is the most important part of the library, as it contains the building blocks for creating custom validators.
+You can find the classes and interfaces in the supplied javadocs, or by browsing the source code of the module.
+We advise you to start by creating a custom validator, and get a feel for the code that you are able to write with this library.
+
+### Creating a specification 
+
+The main entrypoint of the `core` module is the `ModularRuleset` class. This class is a container for multiple `Constraint` objects, and
+provides you with the ability to assess multiple constraints against a single object. The results of the validation are stored in a `Rationale`
+object, which can be queried for the results of the validation. By default, all rules are assessed and included in the rationale.
+
+As an example, say we have a simple record that represent a email contact address, like so:
+```java
+private record EmailContact(
+        UUID userIdentifier, 
+        String email, 
+        String name, 
+        String lastName
+) {}
+```
+
+We want to ensure that the email address is valid, and that the name and last name are not empty. 
+We can create a ruleset like so:
+
+```java
+ModularRuleset<EmailContact.class> emailChecker = aValid(EmailContact.class)
+  .must(Objects::nonNull, "not be null")
+  .must(haveNonNullField(EmailContact::email), "have a non-null email")
+  .iHaveSpoken();
+```
+
+Note that the `must` and `may` methods can be supplied with a `Predicate` of your chosen type, and a message that represents the specification.
+This enables you to create custom specification rules, that can even call external services if so desired.
+For instance, you could create a specification rule that checks if the email address is valid by sending a test email to the address.
+```
+.must(mailContact -> emailService.sendTestMailTo(mailContact.email), "be able to receive a test email")
+```
+
+### Applying the specification
+
+Once you have created a specification, you can apply it to an object like so:
+
+```java
+emailChecker.constrain(
+        new EmailContact(
+                randomUUID(), 
+                "invalid email", 
+                "Bob", 
+                "The Builder"
+        )
+    );
+```
+
+This with return a `Constrained` object, which can be queried for the results of the specification validation, or used in a chain of further 
+processing (similar to Java's `Optional`). The [JavaDoc](https://sddevelopment-be.github.io/modular-validators/apidocs/be/sddevelopment/validation/core/Constrained.html) of the `Constrained` class contains more information on how to use this object.
+
+
+
+# Project and Repository Information
+
 ## Goal
 
 The goal of this project is to provide a lightweight rule enforcement and validation framework for Java projects, allowing for internal and external validation logic to be combined in a transparent and reusable way.
