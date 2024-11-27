@@ -4,7 +4,7 @@
 
   <groupId>be.sddevelopment.validation</groupId>
   <artifactId>modular-validators</artifactId>
-  <version>1.1.0</version>
+  <version>1.1.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <description>
@@ -48,7 +48,7 @@
   <scm>
     <connection>scm:git:ssh://git@github.com/sddevelopment-be/modular-validators.git</connection>
     <url>${project.url}</url>
-    <tag>modular-validators-1.1.0</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <distributionManagement>
@@ -83,7 +83,7 @@
       <dependency>
         <groupId>be.sddevelopment.validation</groupId>
         <artifactId>core</artifactId>
-        <version>1.1.0</version>
+        <version>1.1.1-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>be.sddevelopment.validation</groupId>

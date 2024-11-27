@@ -5,7 +5,7 @@
   <parent>
     <groupId>be.sddevelopment.validation</groupId>
     <artifactId>modular-validators</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
