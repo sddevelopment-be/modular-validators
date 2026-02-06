@@ -10,7 +10,9 @@ package be.sddevelopment.validation.core;
  * @version 1.0.0-SNAPSHOT
  * @since 1.0.0-SNAPSHOT
  */
-public record Reason(String rationale, Evaluation result) {
+public record Reason(String rationale,
+                     Evaluation result
+) {
 
     public static Reason passed(String rationale) {
         return new Reason(rationale, Evaluation.PASS);

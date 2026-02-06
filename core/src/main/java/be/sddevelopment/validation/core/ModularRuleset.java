@@ -24,9 +24,10 @@ public final class ModularRuleset<T> {
     }
 
     public Rationale check(T data) {
-        return Rationale.rationaleWithReasons(rules.stream()
-                .map(rule -> rule.applyTo(data))
-                .toList());
+        return Rationale.rationaleWithReasonsAndProof(
+              rules.stream().map(rule -> rule.applyTo(data)).toList(),
+              rules.stream().map(r -> r.evidenceExtractor().apply(data)).reduce(Evidence::merge).orElse(Evidence.empty())
+             );
     }
 
     public Rationale quickCheck(T data) {
@@ -63,30 +64,20 @@ public final class ModularRuleset<T> {
         public ModularValidatorBuilder<S> must(Predicate<S> requirement, String description) {
             return must(new Constraint<>(requirement, description));
         }
-        
-        /**
-         * Adds a validation constraint with dynamic description.
-         * 
-         * <p>The description function is evaluated with the actual object being validated,
-         * enabling context-aware failure messages that include field values.</p>
-         *
-         * <p><strong>Example:</strong></p>
-         * <pre>{@code
-         * .must(
-         *     person -> person.age() >= 18,
-         *     person -> person.age() >= 18
-         *         ? "Is adult (age: " + person.age() + ")"
-         *         : "Too young (age: " + person.age() + ", minimum: 18)"
-         * )
-         * }</pre>
-         *
-         * @param requirement the validation predicate
-         * @param descriptionBuilder function that generates description based on validated object
-         * @return this builder for chaining
-         * @since 1.2.0
-         */
-        public ModularValidatorBuilder<S> must(Predicate<S> requirement, Function<S, String> descriptionBuilder) {
-            return must(new Constraint<>(requirement, descriptionBuilder));
+
+        public ModularValidatorBuilder<S> must(
+              Predicate<S> requirement,
+              String description,
+              Function<S, String> rationaleBuilder,
+              Function<S, Evidence> evidenceExtractor) {
+            return must(new Constraint<>(requirement, description, rationaleBuilder, evidenceExtractor));
+        }
+
+        public ModularValidatorBuilder<S> must(
+              Predicate<S> requirement,
+              String description,
+              Function<S, String> rationaleBuilder) {
+            return must(new Constraint<>(requirement, description, rationaleBuilder, o -> Evidence.empty()));
         }
 
         public ModularValidatorBuilder<S> mayNot(Predicate<S> interdiction, String description) {

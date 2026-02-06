@@ -1,6 +1,7 @@
 package be.sddevelopment.validation;
 
 import be.sddevelopment.validation.core.Constrained;
+import be.sddevelopment.validation.core.Evidence;
 import be.sddevelopment.validation.core.Reason;
 import org.assertj.core.api.Condition;
 
@@ -26,6 +27,14 @@ public final class CheckedTestUtils {
 
     public static Condition<Reason> failing() {
         return new Condition<>(Predicate.not(Reason::isPassing), "is failing");
+    }
+
+    public static Condition<Evidence> hasEvidence(String key) {
+        return new Condition<>(e -> e.get(key).isPresent(), "has evidence for key '%s'");
+    }
+
+    public static Condition<Evidence> hasEvidenceWithValue(String key, String value) {
+        return new Condition<>(e -> e.get(key).map(v -> v.equals(value)).orElse(false), "has evidence for key '%s' with value '%s'");
     }
 
 }
