@@ -2,6 +2,7 @@ package be.sddevelopment.validation.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import static java.util.Collections.emptyList;
@@ -61,6 +62,31 @@ public final class ModularRuleset<T> {
 
         public ModularValidatorBuilder<S> must(Predicate<S> requirement, String description) {
             return must(new Constraint<>(requirement, description));
+        }
+        
+        /**
+         * Adds a validation constraint with dynamic description.
+         * 
+         * <p>The description function is evaluated with the actual object being validated,
+         * enabling context-aware failure messages that include field values.</p>
+         *
+         * <p><strong>Example:</strong></p>
+         * <pre>{@code
+         * .must(
+         *     person -> person.age() >= 18,
+         *     person -> person.age() >= 18
+         *         ? "Is adult (age: " + person.age() + ")"
+         *         : "Too young (age: " + person.age() + ", minimum: 18)"
+         * )
+         * }</pre>
+         *
+         * @param requirement the validation predicate
+         * @param descriptionBuilder function that generates description based on validated object
+         * @return this builder for chaining
+         * @since 1.2.0
+         */
+        public ModularValidatorBuilder<S> must(Predicate<S> requirement, Function<S, String> descriptionBuilder) {
+            return must(new Constraint<>(requirement, descriptionBuilder));
         }
 
         public ModularValidatorBuilder<S> mayNot(Predicate<S> interdiction, String description) {
