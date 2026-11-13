@@ -66,7 +66,7 @@
 
     <archunit.version>1.3.0</archunit.version>
     <junit.jupiter.version>5.11.0</junit.jupiter.version>
-    <assertj.version>3.26.3</assertj.version>
+    <assertj.version>3.27.7</assertj.version>
     <jacoco.build.dir>${project.build.directory}/jacoco</jacoco.build.dir>
 
     <sonar.organization>sddevelopment-be</sonar.organization>
